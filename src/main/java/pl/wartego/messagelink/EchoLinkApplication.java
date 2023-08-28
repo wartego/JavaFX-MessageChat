@@ -1,4 +1,4 @@
-package pl.wartego.echolink;
+package pl.wartego.messagelink;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -11,8 +11,8 @@ public class EchoLinkApplication extends Application {
     @Override
     public void start(Stage stage) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(EchoLinkApplication.class.getResource("hello-page.fxml"));
-        Scene scene = new Scene(fxmlLoader.load(), 320, 240);
-        stage.setTitle("Hello!");
+        Scene scene = new Scene(fxmlLoader.load(), 1000, 600);
+        stage.setTitle("EchoLink!");
         stage.setScene(scene);
         stage.show();
     }
