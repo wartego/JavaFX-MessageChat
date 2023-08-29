@@ -6,7 +6,10 @@ module pl.wartego.messagelink{
     requires org.kordamp.ikonli.fontawesome5;
     requires org.kordamp.ikonli.javafx;
     requires org.kordamp.ikonli.core;
-
+    requires java.desktop;
+    requires java.sql;
+    requires mysql.connector.j;
+    requires jakarta.mail;
 
 
     opens pl.wartego.messagelink to javafx.fxml;
