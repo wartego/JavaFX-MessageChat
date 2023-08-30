@@ -1,0 +1,217 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.effect.Glow?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.shape.Circle?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+<?import org.kordamp.ikonli.javafx.FontIcon?>
+
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="pl.wartego.messagelink.RegisterController">
+   <left>
+      <AnchorPane prefHeight="600.0" prefWidth="230.0" style="-fx-background-color: #044e8a;" BorderPane.alignment="CENTER">
+         <children>
+            <Label layoutX="40.0" layoutY="550.0" text="Copyright (c). All Rights Reserved." textFill="#b5b5b5">
+               <font>
+                  <Font name="Segoe UI Light" size="12.0" />
+               </font>
+               <effect>
+                  <Glow level="0.36" />
+               </effect>
+            </Label>
+            <FontIcon iconColor="#f8f8f8" iconLiteral="fab-facebook-messenger" iconSize="100" layoutX="72.0" layoutY="122.0" wrappingWidth="96.0">
+               <effect>
+                  <Glow level="0.82" />
+               </effect>
+            </FontIcon>
+            <Label layoutX="55.0" layoutY="153.0" text="MessageLink" textAlignment="CENTER" textFill="#f8eeee">
+               <font>
+                  <Font size="23.0" />
+               </font>
+               <effect>
+                  <Glow />
+               </effect>
+            </Label>
+         </children></AnchorPane>
+   </left>
+   <center>
+      <AnchorPane prefHeight="600.0" prefWidth="703.0" style="-fx-background-color: #e7e7e7;" BorderPane.alignment="CENTER">
+         <children>
+            <Text fontSmoothingType="LCD" layoutX="178.0" layoutY="56.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Please register:" textAlignment="CENTER" wrappingWidth="370.0">
+               <font>
+                  <Font size="39.0" />
+               </font>
+               <effect>
+                  <Glow />
+               </effect>
+            </Text>
+            <Button fx:id="submitButton" layoutX="94.0" layoutY="514.0" mnemonicParsing="false" onAction="#registerButtonAction" prefHeight="35.0" prefWidth="250.0" style="-fx-background-radius: 9px;" text="Register" />
+            <Button fx:id="exitButton" layoutX="686.0" layoutY="14.0" minWidth="43.0" mnemonicParsing="false" onAction="#closeStageButton" prefHeight="35.0" prefWidth="35.0" style="-fx-background-radius: 10px;" textFill="WHITE">
+               <graphic>
+                  <Circle fx:id="circleExit" fill="DODGERBLUE" radius="15.0" stroke="BLACK" strokeType="INSIDE" />
+               </graphic>
+            </Button>
+            <Button fx:id="cancelButton" layoutX="386.0" layoutY="514.0" mnemonicParsing="false" onAction="#cancelButton" prefHeight="35.0" prefWidth="250.0" style="-fx-background-radius: 9px;" text="Cancel" />
+            <HBox layoutX="94.0" layoutY="91.0" prefHeight="380.0" prefWidth="570.0">
+               <children>
+                  <VBox prefHeight="350.0" prefWidth="469.0" spacing="20.0">
+                     <children>
+                        <HBox prefHeight="40.0" prefWidth="350.0">
+                           <children>
+                              <FontIcon iconColor="#7c7c7c" iconLiteral="far-id-card" iconSize="26" wrappingWidth="30.0">
+                                 <HBox.margin>
+                                    <Insets top="5.0" />
+                                 </HBox.margin>
+                              </FontIcon>
+                              <Label alignment="CENTER_RIGHT" prefHeight="40.0" prefWidth="85.0" text="Your login:" textAlignment="RIGHT">
+                                 <HBox.margin>
+                                    <Insets right="10.0" />
+                                 </HBox.margin>
+                                 <font>
+                                    <Font size="13.0" />
+                                 </font>
+                              </Label>
+                              <TextField fx:id="loginTextField" nodeOrientation="LEFT_TO_RIGHT" onMouseEntered="#inputDataValidationIfNotNull" prefHeight="44.0" prefWidth="316.0" promptText="Your login" style="-fx-background-color: white; -fx-background-radius: 8px; -fx-border-color: transparent;" />
+                           </children>
+                           <VBox.margin>
+                              <Insets top="5.0" />
+                           </VBox.margin>
+                        </HBox>
+                        <HBox prefHeight="40.0" prefWidth="350.0">
+                           <children>
+                              <FontIcon iconColor="#7c7c7c" iconLiteral="fas-lock" iconSize="26" wrappingWidth="30.0">
+                                 <HBox.margin>
+                                    <Insets top="5.0" />
+                                 </HBox.margin>
+                              </FontIcon>
+                              <Label alignment="CENTER_RIGHT" prefHeight="40.0" prefWidth="85.0" text="Password: " textAlignment="RIGHT">
+                                 <HBox.margin>
+                                    <Insets right="10.0" />
+                                 </HBox.margin>
+                                 <font>
+                                    <Font size="13.0" />
+                                 </font>
+                              </Label>
+                              <PasswordField fx:id="passwordTextField" onMouseEntered="#inputDataValidationIfNotNull" prefHeight="44.0" prefWidth="316.0" promptText="Password" style="-fx-background-color: white; -fx-background-radius: 8px; -fx-border-color: transparent;" />
+                           </children>
+                           <padding>
+                              <Insets left="2.0" />
+                           </padding>
+                        </HBox>
+                        <HBox prefHeight="40.0" prefWidth="350.0">
+                           <children>
+                              <FontIcon iconColor="#7c7c7c" iconLiteral="fab-accessible-icon" iconSize="26" wrappingWidth="30.0">
+                                 <HBox.margin>
+                                    <Insets top="5.0" />
+                                 </HBox.margin>
+                              </FontIcon>
+                              <Label alignment="CENTER_RIGHT" prefHeight="40.0" prefWidth="85.0" text="Your email: ">
+                                 <HBox.margin>
+                                    <Insets right="10.0" />
+                                 </HBox.margin>
+                                 <font>
+                                    <Font size="13.0" />
+                                 </font>
+                              </Label>
+                              <TextField fx:id="emailTextField" prefHeight="44.0" prefWidth="316.0" promptText="Your email" style="-fx-background-color: white; -fx-background-radius: 8px; -fx-border-color: transparent;" />
+                           </children>
+                        </HBox>
+                        <HBox prefHeight="40.0" prefWidth="350.0">
+                           <children>
+                              <FontIcon iconColor="#7c7c7c" iconLiteral="far-user" iconSize="26" wrappingWidth="30.0">
+                                 <HBox.margin>
+                                    <Insets top="5.0" />
+                                 </HBox.margin>
+                              </FontIcon>
+                              <Label alignment="CENTER_RIGHT" prefHeight="40.0" prefWidth="85.0" text="First name:" textAlignment="RIGHT">
+                                 <HBox.margin>
+                                    <Insets right="10.0" />
+                                 </HBox.margin>
+                                 <font>
+                                    <Font size="13.0" />
+                                 </font>
+                              </Label>
+                              <TextField fx:id="firstNameTextField" onMouseClicked="#emailVerficationAction" onMouseEntered="#inputDataValidationIfNotNull" prefHeight="44.0" prefWidth="316.0" promptText="First name" style="-fx-background-color: white; -fx-background-radius: 8px; -fx-border-color: transparent;" />
+                           </children>
+                        </HBox>
+                        <HBox prefHeight="40.0" prefWidth="350.0">
+                           <children>
+                              <FontIcon iconColor="#7c7c7c" iconLiteral="fas-address-card" iconSize="26" wrappingWidth="30.0">
+                                 <HBox.margin>
+                                    <Insets top="5.0" />
+                                 </HBox.margin>
+                              </FontIcon>
+                              <Label alignment="CENTER_RIGHT" prefHeight="40.0" prefWidth="85.0" text="Last name:">
+                                 <HBox.margin>
+                                    <Insets right="10.0" />
+                                 </HBox.margin>
+                                 <font>
+                                    <Font size="13.0" />
+                                 </font>
+                              </Label>
+                              <TextField fx:id="lastNameTextField" onMouseEntered="#inputDataValidationIfNotNull" prefHeight="44.0" prefWidth="316.0" promptText="Last name" style="-fx-background-color: white; -fx-background-radius: 8px; -fx-border-color: transparent;" />
+                           </children>
+                        </HBox>
+                        <HBox prefHeight="40.0" prefWidth="350.0">
+                           <children>
+                              <FontIcon fx:id="verificationCodeIcon" iconColor="#7c7c7c" iconLiteral="fas-business-time" iconSize="26" wrappingWidth="30.0">
+                                 <HBox.margin>
+                                    <Insets top="5.0" />
+                                 </HBox.margin>
+                              </FontIcon>
+                              <Label fx:id="verificationCodeLabel" alignment="CENTER_RIGHT" prefHeight="40.0" prefWidth="133.0" text="Verification code:">
+                                 <HBox.margin>
+                                    <Insets right="60.0" />
+                                 </HBox.margin>
+                                 <font>
+                                    <Font size="13.0" />
+                                 </font>
+                              </Label>
+                              <TextField fx:id="verificationCodeTextField" prefHeight="40.0" prefWidth="190.0" promptText="Please input verification code" style="-fx-background-color: white; -fx-background-radius: 8px; -fx-border-color: transparent;" />
+                           </children>
+                        </HBox>
+                     </children>
+                     <padding>
+                        <Insets bottom="10.0" left="10.0" right="1.0" top="10.0" />
+                     </padding>
+                  </VBox>
+                  <VBox prefHeight="380.0" prefWidth="130.0" spacing="20.0">
+                     <children>
+                        <Label fx:id="loginLabelVerify" prefHeight="40.0" textFill="#55ee2e">
+                           <effect>
+                              <Glow level="0.5" />
+                           </effect></Label>
+                        <Label fx:id="passwordLabelVerify" prefHeight="40.0" textFill="#55ee2e">
+                           <effect>
+                              <Glow level="0.5" />
+                           </effect></Label>
+                        <Label fx:id="emailLabelVerify" prefHeight="40.0" wrapText="true">
+                           <effect>
+                              <Glow level="0.5" />
+                           </effect></Label>
+                        <Label fx:id="firstNameLabelVerify" prefHeight="40.0" textFill="#55ee2e">
+                           <effect>
+                              <Glow level="0.5" />
+                           </effect></Label>
+                        <Label fx:id="lastNameLabelVerify" prefHeight="40.0" textFill="#55ee2e">
+                           <effect>
+                              <Glow level="0.5" />
+                           </effect></Label>
+                     </children>
+                     <padding>
+                        <Insets bottom="10.0" left="2.0" right="10.0" top="10.0" />
+                     </padding>
+                  </VBox>
+               </children>
+            </HBox>
+         </children></AnchorPane>
+   </center>
+</BorderPane>

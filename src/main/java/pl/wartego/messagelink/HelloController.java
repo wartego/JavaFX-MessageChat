@@ -1,5 +1,6 @@
 package pl.wartego.messagelink;
 
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
@@ -26,6 +27,7 @@ public class HelloController implements Initializable {
     private Button cancelButton;
     @FXML
     private Button registerButton;
+
     @FXML
     private Circle circleLogo;
     @FXML
@@ -79,7 +81,13 @@ public class HelloController implements Initializable {
 
     @FXML
     protected void login() throws IOException {
-       EmailService service = new EmailService();
-       service.getEmailConfigResources();
+//       EmailService service = new EmailService();
+//       service.getEmailConfigResources();
     }
+    @FXML
+    protected void registrationSwitch(ActionEvent event) throws IOException {
+       SceneController.switchToSceneRegistration(event);
+    }
+
+
 }

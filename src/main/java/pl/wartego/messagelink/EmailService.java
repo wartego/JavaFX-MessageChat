@@ -40,7 +40,9 @@ public class EmailService {
                 return new PasswordAuthentication(username, password);
             }
         };
-
+        properties.remove("username");
+        properties.remove("password");
+        
         Session session = Session.getInstance(properties, authenticator);
         try {
             //create a MimeMessage object
