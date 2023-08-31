@@ -9,11 +9,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class EmailBody {
-    private static String EMAILBODY = "files/emailbody.txt";
+    private static final String EMAILBODY = "/emailbody.txt";
     private static List<String> emailbodyTextList;
+
     protected static void getFileFromResourceAsStream() throws IOException {
         ClassLoader classLoader = EmailBody.class.getClassLoader();
-        InputStream inputStream = classLoader.getResourceAsStream(EMAILBODY);
+        InputStream inputStream = classLoader.getResourceAsStream("/emailbody.txt");
         // the stream holding the file content
         if (inputStream == null) {
             throw new IllegalArgumentException("file not found! " + EMAILBODY);
@@ -27,18 +28,19 @@ public class EmailBody {
             emailbodyTextList.add(line);
         }
     }
-    protected static String replaceKeyWordInBodyEmail(String firstName, String verificationCode){
+
+    protected static String replaceKeyWordInBodyEmail(String firstName, String verificationCode) {
         StringBuilder stringBuilder = new StringBuilder();
         String newLine;
         emailbodyTextList.forEach(line -> {
-            if(line.contains("FIRSTNAME")){
-                 emailbodyTextList.set(emailbodyTextList.indexOf(line),line.replace("FIRSTNAME", firstName));
+            if (line.contains("FIRSTNAME")) {
+                emailbodyTextList.set(emailbodyTextList.indexOf(line), line.replace("FIRSTNAME", firstName));
             }
-            if(line.contains("CODEXX")){
-               emailbodyTextList.set(emailbodyTextList.indexOf(line), line.replace("CODEXX", verificationCode));
+            if (line.contains("CODEXX")) {
+                emailbodyTextList.set(emailbodyTextList.indexOf(line), line.replace("CODEXX", verificationCode));
             }
         });
-        emailbodyTextList.forEach(line-> stringBuilder.append(line+"\n"));
+        emailbodyTextList.forEach(line -> stringBuilder.append(line + "\n"));
         return stringBuilder.toString();
     }
 }
