@@ -27,7 +27,6 @@ public class HelloController implements Initializable {
     private Button cancelButton;
     @FXML
     private Button registerButton;
-
     @FXML
     private Circle circleLogo;
     @FXML
@@ -36,11 +35,6 @@ public class HelloController implements Initializable {
     private TextField loginTextField;
     @FXML
     private PasswordField passwordTextField;
-
-
-
-
-
 
 //    @FXML
 //    protected void onHelloButtonClick() {
@@ -52,14 +46,13 @@ public class HelloController implements Initializable {
 
         //insert Main Logo
         circleLogo.setStroke(Color.WHITE);
-        Image imageLogo = new Image(getClass().getResourceAsStream("/messagelinkLogo.png"));
-
+        Image imageLogo = new Image(getClass().getResourceAsStream("/pictures/messagelinkLogo.png"));
         circleLogo.setFill(new ImagePattern(imageLogo));
         circleLogo.setEffect(new DropShadow(+25d,0d,+2d,Color.WHITESMOKE));
 
       //insert Logo into Button Exit
 
-        Image imageExit = new Image(getClass().getResourceAsStream("/closeIcon.png"));
+        Image imageExit = new Image(getClass().getResourceAsStream("/pictures/closeIcon.png"));
         ImageView imageViewExit = new ImageView(imageExit);
         imageViewExit.setFitHeight(30);
         imageViewExit.setFitWidth(30);
@@ -80,14 +73,18 @@ public class HelloController implements Initializable {
     }
 
     @FXML
-    protected void login() throws IOException {
-//       EmailService service = new EmailService();
-//       service.getEmailConfigResources();
+    protected void login() {
+
     }
     @FXML
     protected void registrationSwitch(ActionEvent event) throws IOException {
        SceneController.switchToSceneRegistration(event);
     }
 
+    @FXML
+    protected void sendEmail(){
+//        EmailService service = new EmailService();
+//        service.getEmailConfigResources();
+    }
 
 }

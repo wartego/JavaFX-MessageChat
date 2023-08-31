@@ -10,6 +10,7 @@ module pl.wartego.messagelink{
     requires java.sql;
     requires mysql.connector.j;
     requires jakarta.mail;
+    requires spring.security.crypto;
 
 
     opens pl.wartego.messagelink to javafx.fxml;

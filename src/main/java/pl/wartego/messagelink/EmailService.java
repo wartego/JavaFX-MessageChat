@@ -9,13 +9,12 @@ import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 
 public class EmailService {
-      private static Properties properties;
-
+    private static Properties properties;
     //provide recipient's email ID
     private String recipient = "wartego@wp.pl";
     //provide sender's email ID
-    private String senderEmailBox = "jakartato@javatestwartego.pl";
-    protected void getEmailConfigResources() {
+    private String senderEmailBox = "RegistartionMessageLink@javatestwartego.pl";
+    protected void getEmailConfigResources(String emailBodyHTML) {
         properties = new Properties();
         ClassLoader classLoader = EmailService.class.getClassLoader();
         try (InputStream stream = classLoader.getResourceAsStream("emailconfig.properties")) {
@@ -23,17 +22,15 @@ public class EmailService {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-        getEmailResourcesDetails();
+        getEmailResourcesDetails(emailBodyHTML);
     }
-
-    protected void getEmailResourcesDetails() {
+    protected void getEmailResourcesDetails(String emailBodyHTML) {
         final String auth = properties.getProperty("mail.smtp.auth");
         final String startTLS = properties.getProperty("mail.smtp.starttls.enable");
         final String host = properties.getProperty("mail.smtp.host");
         final String port = properties.getProperty("mail.smtp.port");
         final String username = properties.getProperty("username");
         final String password = properties.getProperty("password");
-
 
         Authenticator authenticator = new Authenticator() {
             protected PasswordAuthentication getPasswordAuthentication() {
@@ -42,7 +39,6 @@ public class EmailService {
         };
         properties.remove("username");
         properties.remove("password");
-        
         Session session = Session.getInstance(properties, authenticator);
         try {
             //create a MimeMessage object
@@ -53,17 +49,14 @@ public class EmailService {
             message.setRecipients(Message.RecipientType.TO,
                     InternetAddress.parse(recipient));
             //set email subject field
-            message.setSubject("Here comes Jakarta Mail!");
+            message.setSubject("Registration verification code!");
             //set the content of the email message
-            message.setContent("Just discovered that Jakarta Mail is fun and easy to use", "text/html");
+            message.setContent(emailBodyHTML, "text/html");
             //send the email message
             Transport.send(message);
             System.out.println("Email Message Sent Successfully");
         } catch (MessagingException e) {
             throw new RuntimeException(e);
         }
-
-
     }
-
 }

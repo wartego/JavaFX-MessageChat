@@ -1,0 +1,5 @@
+.stage-rounded {
+    -fx-background-radius: 100;
+    -fx-border-radius: 100;
+    -fx-background-color: white;  /*Ustaw kolor tła */
+}

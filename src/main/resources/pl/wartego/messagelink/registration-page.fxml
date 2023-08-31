@@ -53,7 +53,7 @@
                   <Glow />
                </effect>
             </Text>
-            <Button fx:id="submitButton" layoutX="94.0" layoutY="514.0" mnemonicParsing="false" onAction="#registerButtonAction" prefHeight="35.0" prefWidth="250.0" style="-fx-background-radius: 9px;" text="Register" />
+            <Button fx:id="registerButton" layoutX="86.0" layoutY="514.0" mnemonicParsing="false" onAction="#registerButtonAction" prefHeight="35.0" prefWidth="250.0" style="-fx-background-radius: 9px;" text="Register" />
             <Button fx:id="exitButton" layoutX="686.0" layoutY="14.0" minWidth="43.0" mnemonicParsing="false" onAction="#closeStageButton" prefHeight="35.0" prefWidth="35.0" style="-fx-background-radius: 10px;" textFill="WHITE">
                <graphic>
                   <Circle fx:id="circleExit" fill="DODGERBLUE" radius="15.0" stroke="BLACK" strokeType="INSIDE" />
@@ -100,7 +100,7 @@
                                     <Font size="13.0" />
                                  </font>
                               </Label>
-                              <PasswordField fx:id="passwordTextField" onMouseEntered="#inputDataValidationIfNotNull" prefHeight="44.0" prefWidth="316.0" promptText="Password" style="-fx-background-color: white; -fx-background-radius: 8px; -fx-border-color: transparent;" />
+                              <PasswordField fx:id="passwordTextField" onMouseClicked="#checkIfUserExist" onMouseEntered="#inputDataValidationIfNotNull" prefHeight="44.0" prefWidth="316.0" promptText="Password" style="-fx-background-color: white; -fx-background-radius: 8px; -fx-border-color: transparent;" />
                            </children>
                            <padding>
                               <Insets left="2.0" />
@@ -212,6 +212,15 @@
                   </VBox>
                </children>
             </HBox>
+            <Label fx:id="infoVerificationSendLabel" layoutX="101.0" layoutY="450.0" prefHeight="30.0" prefWidth="437.0" text="Verification code was send to your email account. Please copy it here." textFill="#41eb47">
+               <effect>
+                  <Glow level="0.63" />
+               </effect>
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </Label>
+            <Button fx:id="submitButton" layoutX="86.0" layoutY="514.0" mnemonicParsing="false" onAction="#registerButtonAction" prefHeight="35.0" prefWidth="250.0" style="-fx-background-radius: 9px;" text="Submit to send verification code" />
          </children></AnchorPane>
    </center>
 </BorderPane>
