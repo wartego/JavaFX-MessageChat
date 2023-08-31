@@ -21,6 +21,7 @@ import java.sql.Connection;
 import java.util.ResourceBundle;
 
 public class HelloController implements Initializable {
+    private Connection  connection;
     @FXML
     private Button loginButton;
     @FXML
@@ -60,7 +61,7 @@ public class HelloController implements Initializable {
         circleExit.setStroke(Color.TRANSPARENT);
         circleExit.setEffect(new DropShadow(20,Color.WHITE));
         try {
-            Connection connection = DatabaseConnection.getConnection();
+           connection = DatabaseConnection.getConnection();
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
