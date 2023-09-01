@@ -14,7 +14,7 @@ public class EmailBody {
 
     protected static void getFileFromResourceAsStream() throws IOException {
         ClassLoader classLoader = EmailBody.class.getClassLoader();
-        InputStream inputStream = classLoader.getResourceAsStream("/emailbody.txt");
+        InputStream inputStream = classLoader.getResourceAsStream("emailbody.txt");
         // the stream holding the file content
         if (inputStream == null) {
             throw new IllegalArgumentException("file not found! " + EMAILBODY);
