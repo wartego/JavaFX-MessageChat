@@ -1,4 +1,4 @@
-package pl.wartego.messagelink;
+package pl.wartego.messageChat.emails;
 
 
 import java.util.Properties;
@@ -14,7 +14,7 @@ public class EmailService {
     private String recipient = "wartego@wp.pl";
     //provide sender's email ID
     private String senderEmailBox = "RegistartionMessageLink@javatestwartego.pl";
-    protected void getEmailConfigResources(String emailBodyHTML) {
+    public void getEmailConfigResources(String emailBodyHTML) {
         properties = new Properties();
         ClassLoader classLoader = EmailService.class.getClassLoader();
         try (InputStream stream = classLoader.getResourceAsStream("emailconfig.properties")) {
@@ -24,7 +24,7 @@ public class EmailService {
         }
         getEmailResourcesDetails(emailBodyHTML);
     }
-    protected void getEmailResourcesDetails(String emailBodyHTML) {
+    public void getEmailResourcesDetails(String emailBodyHTML) {
         final String auth = properties.getProperty("mail.smtp.auth");
         final String startTLS = properties.getProperty("mail.smtp.starttls.enable");
         final String host = properties.getProperty("mail.smtp.host");

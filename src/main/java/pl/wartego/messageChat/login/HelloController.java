@@ -1,9 +1,10 @@
-package pl.wartego.messagelink;
+package pl.wartego.messageChat.login;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.effect.DropShadow;
@@ -13,15 +14,19 @@ import javafx.scene.paint.Color;
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Circle;
 import javafx.stage.Stage;
+import pl.wartego.messageChat.SceneController;
+import pl.wartego.messageChat.database.DatabaseConnection;
+import pl.wartego.messageChat.utils.PasswordValidation;
 
 
 import java.io.IOException;
 import java.net.URL;
-import java.sql.Connection;
+import java.sql.*;
 import java.util.ResourceBundle;
 
 public class HelloController implements Initializable {
     private Connection  connection;
+    private String currentUser;
     @FXML
     private Button loginButton;
     @FXML
@@ -36,6 +41,8 @@ public class HelloController implements Initializable {
     private TextField loginTextField;
     @FXML
     private PasswordField passwordTextField;
+    @FXML
+    private Label loginMessageLabel;
 
 //    @FXML
 //    protected void onHelloButtonClick() {
@@ -72,9 +79,42 @@ public class HelloController implements Initializable {
         Stage currentStage =  (Stage) circleLogo.getScene().getWindow();
         currentStage.close();
     }
-
     @FXML
-    protected void login() {
+    protected void loginButtonOnClick(ActionEvent event) throws SQLException {
+
+        if (!loginTextField.getText().isBlank() && !passwordTextField.getText().isBlank()) {
+            loginMessageLabel.setText("You try to login");
+            validateLogin(event); // call Method
+        } else {
+            loginMessageLabel.setText("Please input login and password first!");
+            setUserAndPasswordFieldBlank();
+        }
+    }
+
+    private void setUserAndPasswordFieldBlank() {
+        loginTextField.setText("");
+        passwordTextField.setText("");
+    }
+    @FXML
+    protected void validateLogin(ActionEvent event) throws SQLException{
+
+        PreparedStatement preparedStatement = connection.prepareStatement("SELECT password FROM users WHERE login = ? ");
+        preparedStatement.setString(1,loginTextField.getText());
+        try{
+            ResultSet quaryResult = preparedStatement.executeQuery();
+            while (quaryResult.next()){
+                if(PasswordValidation.ifHashMatchToPassword(quaryResult.getString(1), passwordTextField.getText())){
+                    currentUser = loginTextField.getText();
+                    loginMessageLabel.setText("LOGIN MATCH");
+                    //SceneController.switchToSceneChatWindow(event);
+                } else {
+                    loginMessageLabel.setText("Incorrect login or password, please try again!");
+                }
+            }
+        } catch (SQLException e){
+            e.printStackTrace();
+        }
+
 
     }
     @FXML

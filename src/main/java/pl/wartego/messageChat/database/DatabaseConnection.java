@@ -1,4 +1,4 @@
-package pl.wartego.messagelink;
+package pl.wartego.messageChat.database;
 
 import java.io.IOException;
 import java.io.InputStream;

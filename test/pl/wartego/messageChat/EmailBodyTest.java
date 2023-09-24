@@ -1,4 +1,4 @@
-package pl.wartego.messagelink;
+package pl.wartego.messageChat;
 
 import org.junit.jupiter.api.Test;
 
@@ -10,9 +10,9 @@ import java.nio.charset.StandardCharsets;
 class EmailBodyTest {
 
     @Test
-    void getFileFromResourceAsStream() {
-        ClassLoader classLoader = this.getClass().getClassLoader();
-        InputStream inputStream = classLoader.getResourceAsStream("emailbody.txt");
+    static void getFileFromResourceAsStream() {
+
+        InputStream inputStream = EmailBodyTest.class.getClassLoader().getResourceAsStream("/emailHTMLS/emailbody.txt");
         // the stream holding the file content
         if (inputStream == null) {
             throw new IllegalArgumentException("file not found! ");
