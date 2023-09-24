@@ -1,4 +1,4 @@
-package pl.wartego.messagelink;
+package pl.wartego.messageChat.chat;
 
 public class ContactChooseController {
 }

@@ -1,4 +1,4 @@
-package pl.wartego.messagelink;
+package pl.wartego.messageChat;
 
 public class Main {
     public static void main(String[] args) {

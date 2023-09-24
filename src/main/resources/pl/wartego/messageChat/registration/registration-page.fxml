@@ -15,7 +15,7 @@
 <?import javafx.scene.text.Text?>
 <?import org.kordamp.ikonli.javafx.FontIcon?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="pl.wartego.messagelink.RegisterController">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="pl.wartego.messageChat.registration.RegisterController">
    <left>
       <AnchorPane prefHeight="600.0" prefWidth="230.0" style="-fx-background-color: #044e8a;" BorderPane.alignment="CENTER">
          <children>
@@ -53,7 +53,7 @@
                   <Glow />
                </effect>
             </Text>
-            <Button fx:id="registerButton" layoutX="86.0" layoutY="514.0" mnemonicParsing="false" onAction="#registerButtonAction" prefHeight="35.0" prefWidth="250.0" style="-fx-background-radius: 9px;" text="Register" />
+            <Button fx:id="registerButton" layoutX="86.0" layoutY="514.0" mnemonicParsing="false" onAction="#codeVerification" prefHeight="35.0" prefWidth="250.0" style="-fx-background-radius: 9px;" text="Register" />
             <Button fx:id="exitButton" layoutX="686.0" layoutY="14.0" minWidth="43.0" mnemonicParsing="false" onAction="#closeStageButton" prefHeight="35.0" prefWidth="35.0" style="-fx-background-radius: 10px;" textFill="WHITE">
                <graphic>
                   <Circle fx:id="circleExit" fill="DODGERBLUE" radius="15.0" stroke="BLACK" strokeType="INSIDE" />
@@ -220,7 +220,7 @@
                   <Font size="14.0" />
                </font>
             </Label>
-            <Button fx:id="submitButton" layoutX="86.0" layoutY="514.0" mnemonicParsing="false" onAction="#registerButtonAction" prefHeight="35.0" prefWidth="250.0" style="-fx-background-radius: 9px;" text="Submit to send verification code" />
+            <Button fx:id="submitButton" layoutX="86.0" layoutY="514.0" mnemonicParsing="false" onAction="#submitButtonAction" prefHeight="35.0" prefWidth="250.0" style="-fx-background-radius: 9px;" text="Submit to send verification code" />
          </children></AnchorPane>
    </center>
 </BorderPane>

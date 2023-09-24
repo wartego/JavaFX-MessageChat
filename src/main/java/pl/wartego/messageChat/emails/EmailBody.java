@@ -1,4 +1,4 @@
-package pl.wartego.messagelink;
+package pl.wartego.messageChat.emails;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -9,12 +9,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class EmailBody {
-    private static final String EMAILBODY = "/emailbody.txt";
+    private static final String EMAILBODY = "/emailHTMLS/emailbody.txt";
     private static List<String> emailbodyTextList;
 
-    protected static void getFileFromResourceAsStream() throws IOException {
-        ClassLoader classLoader = EmailBody.class.getClassLoader();
-        InputStream inputStream = classLoader.getResourceAsStream("emailbody.txt");
+    public static void getFileFromResourceAsStream() throws IOException {
+
+        InputStream inputStream = EmailBody.class.getResourceAsStream("/emailHTMLS/emailbody2.txt");
         // the stream holding the file content
         if (inputStream == null) {
             throw new IllegalArgumentException("file not found! " + EMAILBODY);
@@ -29,7 +29,7 @@ public class EmailBody {
         }
     }
 
-    protected static String replaceKeyWordInBodyEmail(String firstName, String verificationCode) {
+    public static String replaceKeyWordInBodyEmail(String firstName, String verificationCode) {
         StringBuilder stringBuilder = new StringBuilder();
         String newLine;
         emailbodyTextList.forEach(line -> {

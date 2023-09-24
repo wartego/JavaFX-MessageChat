@@ -19,7 +19,7 @@
 <?import javafx.scene.text.Text?>
 <?import org.kordamp.ikonli.javafx.FontIcon?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="pl.wartego.messagelink.HelloController">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="pl.wartego.messageChat.login.HelloController">
    <left>
       <AnchorPane prefHeight="600.0" prefWidth="297.0" style="-fx-background-color: #044e8a;" BorderPane.alignment="CENTER">
          <children>
@@ -45,7 +45,7 @@
    <center>
       <AnchorPane prefHeight="600.0" prefWidth="703.0" style="-fx-background-color: #e7e7e7;" BorderPane.alignment="CENTER">
          <children>
-            <Text fontSmoothingType="LCD" layoutX="189.0" layoutY="81.0" strokeType="OUTSIDE" strokeWidth="0.0" text="MessageLink" textAlignment="CENTER" wrappingWidth="370.0">
+            <Text fontSmoothingType="LCD" layoutX="170.0" layoutY="99.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Message Chat" textAlignment="CENTER" wrappingWidth="363.0">
                <font>
                   <Font size="54.0" />
                </font>
@@ -53,7 +53,7 @@
                   <Glow />
                </effect>
             </Text>
-            <Button fx:id="loginButton" layoutX="248.0" layoutY="322.0" mnemonicParsing="false" onAction="#sendEmail" prefHeight="35.0" prefWidth="250.0" style="-fx-background-radius: 9px;" text="Login" textFill="#7ac361">
+            <Button fx:id="loginButton" layoutX="248.0" layoutY="322.0" mnemonicParsing="false" onAction="#loginButtonOnClick" prefHeight="35.0" prefWidth="250.0" style="-fx-background-radius: 9px;" text="Login" textFill="#7ac361">
                <font>
                   <Font name="MS Reference Sans Serif" size="12.0" />
                </font></Button>
@@ -112,6 +112,7 @@
                   <Circle fx:id="circleExit" fill="DODGERBLUE" radius="15.0" stroke="BLACK" strokeType="INSIDE" />
                </graphic>
             </Button>
+            <Label fx:id="loginMessageLabel" layoutX="103.0" layoutY="292.0" prefHeight="24.0" prefWidth="499.0" />
          </children></AnchorPane>
    </center>
 </BorderPane>

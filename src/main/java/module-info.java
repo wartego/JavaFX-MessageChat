@@ -13,6 +13,19 @@ module pl.wartego.messagelink{
     requires spring.security.crypto;
 
 
-    opens pl.wartego.messagelink to javafx.fxml;
-    exports pl.wartego.messagelink;
+    opens pl.wartego.messageChat to javafx.fxml;
+    exports pl.wartego.messageChat;
+    exports pl.wartego.messageChat.database;
+    opens pl.wartego.messageChat.database to javafx.fxml;
+    exports pl.wartego.messageChat.login;
+    opens pl.wartego.messageChat.login to javafx.fxml;
+    exports pl.wartego.messageChat.registration;
+    opens pl.wartego.messageChat.registration to javafx.fxml;
+    exports pl.wartego.messageChat.utils;
+    opens pl.wartego.messageChat.utils to javafx.fxml;
+    exports pl.wartego.messageChat.chat;
+    opens pl.wartego.messageChat.chat to javafx.fxml;
+    exports pl.wartego.messageChat.emails;
+    opens pl.wartego.messageChat.emails to javafx.fxml;
+
 }

@@ -1,4 +1,4 @@
-package pl.wartego.messagelink;
+package pl.wartego.messageChat.registration;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -15,6 +15,11 @@ import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Circle;
 import javafx.stage.Stage;
 import org.kordamp.ikonli.javafx.FontIcon;
+import pl.wartego.messageChat.emails.EmailBody;
+import pl.wartego.messageChat.emails.EmailService;
+import pl.wartego.messageChat.utils.PasswordValidation;
+import pl.wartego.messageChat.SceneController;
+import pl.wartego.messageChat.database.DatabaseConnection;
 
 import java.io.IOException;
 import java.net.URL;
@@ -98,8 +103,8 @@ public class RegisterController implements Initializable {
             throw new RuntimeException(e);
         }
 
-        //generate 8 digits CODE for verifiaction
-        randomCodeValue = getRandomCode();
+
+
         //register button and verification label  at begining is not visiable
         registerButton.setVisible(false);
         infoVerificationSendLabel.setVisible(false);
@@ -114,7 +119,7 @@ public class RegisterController implements Initializable {
             PreparedStatement preparedStatement = databaseConnection.prepareStatement(insertNewUserQuery);
 
             preparedStatement.setString(1,loginTextField.getText());
-            preparedStatement.setString(2,PasswordValidation.HashPasswordUnderRegistration(passwordTextField.getText()));
+            preparedStatement.setString(2, PasswordValidation.hashPasswordUnderRegistration(passwordTextField.getText()));
             preparedStatement.setString(3,firstNameTextField.getText());
             preparedStatement.setString(4, lastNameTextField.getText());
             preparedStatement.setString(5, "BASIC_USER");
@@ -127,8 +132,8 @@ public class RegisterController implements Initializable {
                 loginLabelVerify.setText("Please choose different login!");
             } else{
                 preparedStatement.executeUpdate();
-                //switch to login Page
-                SceneController.switchToSceneHello(event);
+                //switch to Registration Success Page
+                SceneController.switchToSceneRegistrationSuccessWindow(event);
             }
         } catch (SQLException e){
             e.printStackTrace();
@@ -176,9 +181,11 @@ public class RegisterController implements Initializable {
         SceneController.switchToSceneHello(event);
     }
     @FXML
-    protected void registerButtonAction(ActionEvent event) throws IOException {
+    protected void submitButtonAction(ActionEvent event) throws IOException {
         verificationCodeTextField.setDisable(false);
         verificationCodeLabel.setDisable(false);
+        //generate 8 digits CODE for verifiaction
+        randomCodeValue = getRandomCode();
 
         //email sending
         EmailBody.getFileFromResourceAsStream();
@@ -188,8 +195,6 @@ public class RegisterController implements Initializable {
         infoVerificationSendLabel.setVisible(true);
         submitButton.setVisible(false);
         registerButton.setVisible(true);
-
-        //userRegistry(event);
     }
     protected boolean emailVerifiaction(String emailFromInput){
         Pattern pattern = Pattern.compile("^([_a-zA-Z0-9-]+(\\.[_a-zA-Z0-9-]+)*@[a-zA-Z0-9-]+(\\.[a-zA-Z0-9-]+)*(\\.[a-zA-Z]{1,6}))?$");
@@ -224,6 +229,17 @@ public class RegisterController implements Initializable {
         Random random = new Random();
         int i = random.nextInt(999999-100000+1)+100000;
         return String.valueOf(i);
+    }
+    @FXML
+    protected boolean codeVerification(ActionEvent event){
+        if(randomCodeValue.equals(verificationCodeTextField.getText())){
+            infoVerificationSendLabel.setText("Verification code match, registration success");
+            userRegistry(event);
+            return true;
+        } else{
+            infoVerificationSendLabel.setText("Verification code incorrect");
+            return false;
+        }
     }
 
 }

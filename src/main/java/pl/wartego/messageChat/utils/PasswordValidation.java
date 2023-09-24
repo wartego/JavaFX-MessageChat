@@ -1,16 +1,16 @@
-package pl.wartego.messagelink;
+package pl.wartego.messageChat.utils;
 
 import org.springframework.security.crypto.bcrypt.BCrypt;
 
 public class PasswordValidation {
 
     //hashing password under registration form
-    public static String HashPasswordUnderRegistration(String password){
+    public static String hashPasswordUnderRegistration(String password){
         return BCrypt.hashpw(password,BCrypt.gensalt(10));
     }
 
     //encryption password from user under login
-    public static String HashPasswordUnderLogin(String password){
+    public static String hashPasswordUnderLogin(String password){
         String hashedPassword = BCrypt.hashpw(password,BCrypt.gensalt(10));
         if(BCrypt.checkpw(password,hashedPassword)){
             System.out.println("Password Match");

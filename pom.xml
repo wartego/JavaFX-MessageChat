@@ -97,7 +97,7 @@
                         <!-- Default configuration for running with: mvn clean javafx:run -->
                         <id>default-cli</id>
                         <configuration>
-                            <mainClass>pl.wartego.echolink/pl.wartego.messagelink.MessageLinkApplication</mainClass>
+                            <mainClass>pl.wartego.echolink/pl.wartego.messageChat.MessageLinkApplication</mainClass>
                             <launcher>app</launcher>
                             <jlinkZipName>app</jlinkZipName>
                             <jlinkImageName>app</jlinkImageName>
@@ -122,7 +122,7 @@
                             <shadedArtifactAttached>true</shadedArtifactAttached>
                             <transformers>
                                 <transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
-                                    <mainClass>pl.wartego.messagelink.Main</mainClass>
+                                    <mainClass>pl.wartego.messageChat.Main</mainClass>
                                 </transformer>
                             </transformers>
                         </configuration>
