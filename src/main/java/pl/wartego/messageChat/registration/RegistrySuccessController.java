@@ -8,7 +8,7 @@ import javafx.scene.effect.DropShadow;
 import javafx.scene.image.ImageView;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
-import pl.wartego.messageChat.SceneController;
+import pl.wartego.messageChat.scene.SceneController;
 
 
 import java.io.IOException;

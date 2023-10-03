@@ -1,4 +1,4 @@
-package pl.wartego.messageChat;
+package pl.wartego.messageChat.main;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -12,18 +12,20 @@ import javafx.stage.StageStyle;
 import java.io.IOException;
 
 public class MessageLinkApplication extends Application {
+    private static Stage primaryStageObj;
     public static void main(String[] args) {
         launch();
     }
 
     @Override
     public void start(Stage stage) throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader(MessageLinkApplication.class.getResource("login/hello-page.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(MessageLinkApplication.class.getResource("/pl/wartego/messageChat/login/login-page.fxml"));
         Parent page = fxmlLoader.load();
         StackPane root = new StackPane(page);
         Scene scene = new Scene(root, 1000, 600);
         scene.getStylesheets().add(getClass().getResource("/styles.css").toExternalForm());
         stage.getIcons().add(new Image(MessageLinkApplication.class.getResource("/pictures/AppLogo2.png").toString()));
+        stage.setTitle("Message Chat: Client version 0.1");
         stage.setScene(scene);
         stage.initStyle(StageStyle.TRANSPARENT);
         stage.show();
@@ -34,7 +36,7 @@ public class MessageLinkApplication extends Application {
 
 
 //        stage.initStyle(StageStyle.TRANSPARENT);
-//        FXMLLoader fxmlLoader = new FXMLLoader(MessageLinkApplication.class.getResource("hello-page.fxml"));
+//        FXMLLoader fxmlLoader = new FXMLLoader(MessageLinkApplication.class.getResource("login-page.fxml"));
 //        Parent page = fxmlLoader.load();
 //
 //        Rectangle roundedRectangle = new Rectangle(1000,600);
@@ -54,7 +56,7 @@ public class MessageLinkApplication extends Application {
 
 
         // zaokraglenie nie dziala
-//        FXMLLoader fxmlLoader = new FXMLLoader(MessageLinkApplication.class.getResource("hello-page.fxml"));
+//        FXMLLoader fxmlLoader = new FXMLLoader(MessageLinkApplication.class.getResource("login-page.fxml"));
 //        Parent page = fxmlLoader.load();
 //        StackPane root = new StackPane(page);
 //
@@ -67,7 +69,7 @@ public class MessageLinkApplication extends Application {
 
 
 //        to dziala bez zaokroglenia
-//         FXMLLoader fxmlLoader = new FXMLLoader(MessageLinkApplication.class.getResource("hello-page.fxml"));
+//         FXMLLoader fxmlLoader = new FXMLLoader(MessageLinkApplication.class.getResource("login-page.fxml"));
 //                Parent root = fxmlLoader.load();
 //                Scene scene = new Scene(root, 1000, 600);
 //                scene.setFill(Color.TRANSPARENT);
@@ -76,5 +78,9 @@ public class MessageLinkApplication extends Application {
 //                stage.setScene(scene);
 //                stage.show();
 
+    }
+
+    public static Stage getPrimaryStageObj(){
+        return primaryStageObj;
     }
 }

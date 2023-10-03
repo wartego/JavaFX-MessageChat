@@ -18,7 +18,7 @@ import org.kordamp.ikonli.javafx.FontIcon;
 import pl.wartego.messageChat.emails.EmailBody;
 import pl.wartego.messageChat.emails.EmailService;
 import pl.wartego.messageChat.utils.PasswordValidation;
-import pl.wartego.messageChat.SceneController;
+import pl.wartego.messageChat.scene.SceneController;
 import pl.wartego.messageChat.database.DatabaseConnection;
 
 import java.io.IOException;

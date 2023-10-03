@@ -14,7 +14,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Circle;
 import javafx.stage.Stage;
-import pl.wartego.messageChat.SceneController;
+import pl.wartego.messageChat.scene.SceneController;
 import pl.wartego.messageChat.database.DatabaseConnection;
 import pl.wartego.messageChat.utils.PasswordValidation;
 
@@ -24,7 +24,7 @@ import java.net.URL;
 import java.sql.*;
 import java.util.ResourceBundle;
 
-public class HelloController implements Initializable {
+public class LoginController implements Initializable {
     private Connection  connection;
     private String currentUser;
     @FXML
@@ -107,12 +107,15 @@ public class HelloController implements Initializable {
                     currentUser = loginTextField.getText();
                     loginMessageLabel.setText("LOGIN MATCH");
                     //SceneController.switchToSceneChatWindow(event);
+                    ClientSocket.newClient();
                 } else {
                     loginMessageLabel.setText("Incorrect login or password, please try again!");
                 }
             }
         } catch (SQLException e){
             e.printStackTrace();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
         }
 
 
@@ -127,5 +130,6 @@ public class HelloController implements Initializable {
 //        EmailService service = new EmailService();
 //        service.getEmailConfigResources();
     }
+
 
 }
