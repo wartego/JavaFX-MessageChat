@@ -15,21 +15,23 @@ module pl.wartego.messagelink{
     requires javafx.media;
 
 
-    exports pl.wartego.messageChat.database;
-    opens pl.wartego.messageChat.database to javafx.fxml;
-    exports pl.wartego.messageChat.login;
-    opens pl.wartego.messageChat.login to javafx.fxml;
-    exports pl.wartego.messageChat.registration;
-    opens pl.wartego.messageChat.registration to javafx.fxml;
-    exports pl.wartego.messageChat.utils;
-    opens pl.wartego.messageChat.utils to javafx.fxml;
-    exports pl.wartego.messageChat.chat;
-    opens pl.wartego.messageChat.chat to javafx.fxml;
-    exports pl.wartego.messageChat.emails;
-    opens pl.wartego.messageChat.emails to javafx.fxml;
-    exports pl.wartego.messageChat.main;
-    opens pl.wartego.messageChat.main to javafx.fxml;
-    exports pl.wartego.messageChat.scene;
-    opens pl.wartego.messageChat.scene to javafx.fxml;
+    exports pl.messagechat.messageChat.database;
+    opens pl.messagechat.messageChat.database to javafx.fxml;
+    exports pl.messagechat.messageChat.login;
+    opens pl.messagechat.messageChat.login to javafx.fxml;
+    exports pl.messagechat.messageChat.registration;
+    opens pl.messagechat.messageChat.registration to javafx.fxml;
+    exports pl.messagechat.messageChat.utils;
+    opens pl.messagechat.messageChat.utils to javafx.fxml;
+    exports pl.messagechat.messageChat.chat;
+    opens pl.messagechat.messageChat.chat to javafx.fxml;
+    exports pl.messagechat.messageChat.emails;
+    opens pl.messagechat.messageChat.emails to javafx.fxml;
+    exports pl.messagechat.messageChat.main;
+    opens pl.messagechat.messageChat.main to javafx.fxml;
+    exports pl.messagechat.messageChat.scene;
+    opens pl.messagechat.messageChat.scene to javafx.fxml;
+    exports pl.messagechat.messageChat.traynotifications.notification;
+    opens pl.messagechat.messageChat.traynotifications.notification to javafx.fxml;
 
 }

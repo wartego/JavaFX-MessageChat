@@ -1,4 +1,4 @@
-package pl.wartego.messageChat.utils;
+package pl.messagechat.messageChat.utils;
 
 import org.junit.jupiter.api.Test;
 
