@@ -5,6 +5,7 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.PasswordField?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.effect.Blend?>
 <?import javafx.scene.effect.Glow?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -53,35 +54,17 @@
                   <Glow />
                </effect>
             </Text>
-            <Button fx:id="loginButton" layoutX="248.0" layoutY="322.0" mnemonicParsing="false" onAction="#loginButtonOnClick" prefHeight="35.0" prefWidth="250.0" style="-fx-background-radius: 9px;" text="Login" textFill="#7ac361">
-               <font>
-                  <Font name="MS Reference Sans Serif" size="12.0" />
-               </font></Button>
-            <Button fx:id="cancelButton" layoutX="248.0" layoutY="389.0" mnemonicParsing="false" onAction="#closeStage" prefHeight="35.0" prefWidth="250.0" style="-fx-background-radius: 9px;" text="Cancel" />
-            <Button fx:id="registerButton" layoutX="248.0" layoutY="512.0" mnemonicParsing="false" onAction="#registrationSwitch" prefHeight="35.0" prefWidth="250.0" style="-fx-background-radius: 9px;" text="Register" />
-            <Label layoutX="268.0" layoutY="473.0" text="Not an MessageLink user yet?" textAlignment="CENTER">
-               <font>
-                  <Font size="16.0" />
-               </font>
-               <textFill>
-                  <RadialGradient centerX="0.5" centerY="0.5" radius="0.5">
-                     <stops>
-                        <Stop>
-                           <color>
-                              <Color red="1.0" green="0.35648149251937866" blue="0.35648149251937866" />
-                           </color>
-                        </Stop>
-                        <Stop offset="1.0">
-                           <color>
-                              <Color red="0.7763158082962036" green="0.4061281681060791" blue="0.4061281681060791" />
-                           </color>
-                        </Stop>
-                     </stops>
-                  </RadialGradient>
-               </textFill>
-            </Label>
-            <VBox layoutX="198.0" layoutY="174.0" spacing="20.0">
+            <VBox layoutX="198.0" layoutY="132.0" spacing="20.0">
                <children>
+                  <HBox alignment="CENTER" prefHeight="49.0" prefWidth="350.0">
+                     <children>
+                        <ImageView fx:id="defaultUserImageView" fitHeight="52.0" fitWidth="80.0" pickOnBounds="true" preserveRatio="true">
+                           <effect>
+                              <Blend />
+                           </effect>
+                        </ImageView>
+                     </children>
+                  </HBox>
                   <HBox prefHeight="40.0" prefWidth="350.0">
                      <children>
                         <FontIcon iconColor="#7c7c7c" iconLiteral="fas-user-alt" iconSize="26">
@@ -92,7 +75,7 @@
                         <TextField fx:id="loginTextField" prefHeight="44.0" prefWidth="316.0" promptText="Username" style="-fx-background-color: white; -fx-background-radius: 11px; -fx-border-color: transparent;" />
                      </children>
                   </HBox>
-                  <HBox prefHeight="40.0" prefWidth="350.0">
+                  <HBox alignment="CENTER" prefHeight="40.0" prefWidth="350.0">
                      <children>
                         <FontIcon iconColor="#7c7c7c" iconLiteral="fas-lock" iconSize="26">
                            <HBox.margin>
@@ -105,6 +88,51 @@
                         <Insets left="2.0" />
                      </padding>
                   </HBox>
+                  <HBox alignment="CENTER" prefHeight="43.0" prefWidth="350.0">
+                     <children>
+                        <Button fx:id="loginButton" mnemonicParsing="false" onAction="#loginButtonOnClick" prefHeight="35.0" prefWidth="250.0" style="-fx-background-radius: 9px;" text="Login" textFill="#7ac361">
+                           <font>
+                              <Font name="MS Reference Sans Serif" size="12.0" />
+                           </font>
+                        </Button>
+                        <Label fx:id="loginMessageLabel" prefHeight="24.0" prefWidth="119.0" />
+                     </children>
+                  </HBox>
+                  <HBox alignment="CENTER" prefHeight="40.0" prefWidth="350.0">
+                     <children>
+                        <Button fx:id="cancelButton" mnemonicParsing="false" onAction="#closeStage" prefHeight="35.0" prefWidth="250.0" style="-fx-background-radius: 9px;" text="Cancel" />
+                     </children>
+                  </HBox>
+                  <HBox alignment="CENTER" prefHeight="40.0" prefWidth="350.0">
+                     <children>
+                        <Button fx:id="registerButton" mnemonicParsing="false" onAction="#registrationSwitch" prefHeight="35.0" prefWidth="250.0" style="-fx-background-radius: 9px;" text="Register" />
+                     </children>
+                  </HBox>
+                  <HBox alignment="CENTER" prefHeight="60.0" prefWidth="350.0">
+                     <children>
+                        <Label text="Not an MessageLink user yet?" textAlignment="CENTER">
+                           <font>
+                              <Font size="16.0" />
+                           </font>
+                           <textFill>
+                              <RadialGradient centerX="0.5" centerY="0.5" radius="0.5">
+                                 <stops>
+                                    <Stop>
+                                       <color>
+                                          <Color red="1.0" green="0.35648149251937866" blue="0.35648149251937866" />
+                                       </color>
+                                    </Stop>
+                                    <Stop offset="1.0">
+                                       <color>
+                                          <Color red="0.7763158082962036" green="0.4061281681060791" blue="0.4061281681060791" />
+                                       </color>
+                                    </Stop>
+                                 </stops>
+                              </RadialGradient>
+                           </textFill>
+                        </Label>
+                     </children>
+                  </HBox>
                </children>
             </VBox>
             <Button fx:id="exitButton" layoutX="643.0" layoutY="14.0" minWidth="43.0" mnemonicParsing="false" onAction="#closeStage" prefHeight="35.0" prefWidth="35.0" style="-fx-background-radius: 10px;" textFill="WHITE">
@@ -112,7 +140,6 @@
                   <Circle fx:id="circleExit" fill="DODGERBLUE" radius="15.0" stroke="BLACK" strokeType="INSIDE" />
                </graphic>
             </Button>
-            <Label fx:id="loginMessageLabel" layoutX="103.0" layoutY="292.0" prefHeight="24.0" prefWidth="499.0" />
          </children></AnchorPane>
    </center>
 </BorderPane>

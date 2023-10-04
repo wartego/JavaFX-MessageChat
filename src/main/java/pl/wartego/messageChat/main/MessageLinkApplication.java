@@ -19,6 +19,7 @@ public class MessageLinkApplication extends Application {
 
     @Override
     public void start(Stage stage) throws IOException {
+        primaryStageObj = stage;
         FXMLLoader fxmlLoader = new FXMLLoader(MessageLinkApplication.class.getResource("/pl/wartego/messageChat/login/login-page.fxml"));
         Parent page = fxmlLoader.load();
         StackPane root = new StackPane(page);

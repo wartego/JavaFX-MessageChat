@@ -11,6 +11,8 @@ module pl.wartego.messagelink{
     requires mysql.connector.j;
     requires jakarta.mail;
     requires spring.security.crypto;
+    requires slf4j.api;
+    requires javafx.media;
 
 
     exports pl.wartego.messageChat.database;

@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 public class Message implements Serializable {
-    private String senderName;
+    private String name;
     private MessageType type;
     private String msg;
     private int count;
@@ -13,23 +13,28 @@ public class Message implements Serializable {
     private ArrayList<User> users;
 
     private Status status;
-    private String picture;
 
+    public byte[] getVoiceMsg() {
+        return voiceMsg;
+    }
 
+    private byte[] voiceMsg;
 
     public String getPicture() {
         return picture;
     }
 
+    private String picture;
+
     public Message() {
     }
 
-    public String getSenderName() {
-        return senderName;
+    public String getName() {
+        return name;
     }
 
-    public void setSenderName(String senderName) {
-        this.senderName = senderName;
+    public void setName(String name) {
+        this.name = name;
     }
 
     public String getMsg() {
@@ -86,6 +91,9 @@ public class Message implements Serializable {
         return status;
     }
 
+    public void setVoiceMsg(byte[] voiceMsg) {
+        this.voiceMsg = voiceMsg;
+    }
 
 
 }
