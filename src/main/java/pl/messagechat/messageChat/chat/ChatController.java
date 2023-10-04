@@ -10,6 +10,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.Pos;
+import javafx.scene.Cursor;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -17,6 +18,7 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.media.Media;
 import javafx.scene.paint.Color;
@@ -25,6 +27,7 @@ import javafx.scene.paint.Paint;
 import javafx.util.Duration;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import pl.messagechat.messageChat.main.MessageLinkApplication;
 import pl.messagechat.messageChat.messages.Message;
 import pl.messagechat.messageChat.messages.MessageType;
 import pl.messagechat.messageChat.messages.Status;
@@ -58,6 +61,10 @@ public class ChatController implements Initializable {
     @FXML private ListView listMessagesView;
     @FXML private ListView usersListView;
     @FXML private ImageView microphoneImageView;
+    @FXML private BorderPane borderPane;
+
+    private double xOffset;
+    private double yOffset;
 
     Image microphoneActiveImage = new Image(Objects.requireNonNull(getClass().getResourceAsStream("/pictures/microphone-active.png")));
     Image microphoneInactiveImage = new Image(Objects.requireNonNull(getClass().getResourceAsStream("/pictures/microphone.png")));
@@ -86,6 +93,23 @@ public class ChatController implements Initializable {
                 }
                 ke.consume();
             }
+        });
+
+        /* Drag and Drop */
+        borderPane.setOnMousePressed(event -> {
+            xOffset = MessageLinkApplication.getPrimaryStageObj().getX() - event.getScreenX();
+            yOffset = MessageLinkApplication.getPrimaryStageObj().getY() - event.getScreenY();
+            borderPane.setCursor(Cursor.CLOSED_HAND);
+        });
+
+        borderPane.setOnMouseDragged(event -> {
+            MessageLinkApplication.getPrimaryStageObj().setX(event.getScreenX() + xOffset);
+            MessageLinkApplication.getPrimaryStageObj().setY(event.getScreenY() + yOffset);
+
+        });
+
+        borderPane.setOnMouseReleased(event -> {
+            borderPane.setCursor(Cursor.DEFAULT);
         });
 
     }

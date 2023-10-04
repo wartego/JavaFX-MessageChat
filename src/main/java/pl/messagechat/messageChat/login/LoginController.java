@@ -5,12 +5,14 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Cursor;
 import javafx.scene.Parent;
 import javafx.scene. Scene;
 import javafx.scene.control.*;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.ImagePattern;
@@ -22,6 +24,7 @@ import pl.messagechat.messageChat.chat.Listener;
 import pl.messagechat.messageChat.main.MessageLinkApplication;
 import pl.messagechat.messageChat.scene.SceneController;
 import pl.messagechat.messageChat.database.DatabaseConnection;
+import pl.messagechat.messageChat.util.ResizeHelper;
 import pl.messagechat.messageChat.utils.PasswordValidation;
 
 
@@ -39,23 +42,19 @@ public class LoginController implements Initializable {
     private static LoginController instance;
     public static ChatController chatController;
     private String currentUser;
-    @FXML
-    private Button loginButton;
-    @FXML
-    private Button cancelButton;
-    @FXML
-    private Button registerButton;
-    @FXML
-    private Circle circleLogo;
-    @FXML
-    private Circle circleExit;
-    @FXML
-    private TextField loginTextField;
-    @FXML
-    private PasswordField passwordTextField;
-    @FXML
-    private Label loginMessageLabel;
+    private double xOffset;
+    private double yOffset;
+
+    @FXML private Button loginButton;
+    @FXML private Button cancelButton;
+    @FXML private Button registerButton;
+    @FXML private Circle circleLogo;
+    @FXML private Circle circleExit;
+    @FXML private TextField loginTextField;
+    @FXML private PasswordField passwordTextField;
+    @FXML private Label loginMessageLabel;
     @FXML private ImageView defaultUserImageView;
+    @FXML private BorderPane borderPane;
     private static Image defaultUserImage;
     private Scene scene;
 
@@ -91,6 +90,23 @@ public class LoginController implements Initializable {
         defaultUserImageView.setFitHeight(60);
         defaultUserImageView.setFitWidth(60);
         defaultUserImageView.setEffect(new DropShadow(20,Color.WHITE));
+
+        /* Drag and Drop */
+        borderPane.setOnMousePressed(event -> {
+            xOffset = MessageLinkApplication.getPrimaryStageObj().getX() - event.getScreenX();
+            yOffset = MessageLinkApplication.getPrimaryStageObj().getY() - event.getScreenY();
+            borderPane.setCursor(Cursor.CLOSED_HAND);
+        });
+
+        borderPane.setOnMouseDragged(event -> {
+            MessageLinkApplication.getPrimaryStageObj().setX(event.getScreenX() + xOffset);
+            MessageLinkApplication.getPrimaryStageObj().setY(event.getScreenY() + yOffset);
+
+        });
+
+        borderPane.setOnMouseReleased(event -> {
+            borderPane.setCursor(Cursor.DEFAULT);
+        });
 
         //DateBaseConnection
         try {
@@ -175,14 +191,16 @@ public class LoginController implements Initializable {
     public void showScene() {
         Platform.runLater(()-> {
             Stage stage = (Stage) loginButton.getScene().getWindow();
-            stage.setResizable(false);
+            stage.setResizable(true);
             stage.setWidth(1000);
             stage.setHeight(600);
+
             stage.setOnCloseRequest((WindowEvent e) -> {
                 Platform.exit();
                 System.exit(0);
             });
             stage.setScene(this.scene);
+            ResizeHelper.addResizeListener(stage);
             stage.centerOnScreen();
             chatController.setUserNameLabel(loginTextField.getText());
             try {
