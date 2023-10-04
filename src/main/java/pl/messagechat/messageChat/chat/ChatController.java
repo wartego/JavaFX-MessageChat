@@ -255,7 +255,7 @@ public class ChatController implements Initializable {
             tray.setImage(profileImg);
             tray.showAndDismiss(Duration.seconds(5));
             try {
-                Media hit = new Media(getClass().getResourceAsStream("/sounds/notification.wav").toString());
+                Media hit = new Media(getClass().getResource("/sounds/notification.wav").toExternalForm());
                 MediaPlayer mediaPlayer = new MediaPlayer(hit);
                 mediaPlayer.play();
             } catch (Exception e) {
