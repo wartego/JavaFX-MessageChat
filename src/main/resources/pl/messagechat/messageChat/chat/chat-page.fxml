@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.String?>
+<?import javafx.collections.FXCollections?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<BorderPane fx:id="borderPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="pl.messagechat.messageChat.chat.ChatController">
+   <left>
+      <VBox prefHeight="534.0" prefWidth="176.0" BorderPane.alignment="CENTER">
+         <children>
+            <HBox alignment="CENTER" prefHeight="45.0" prefWidth="176.0">
+               <children>
+                  <Label prefHeight="17.0" prefWidth="149.0" text="Online Users:" />
+                  <Label fx:id="onlineCountLabel" prefHeight="32.0" prefWidth="119.0" text="Label">
+                     <opaqueInsets>
+                        <Insets />
+                     </opaqueInsets>
+                     <font>
+                        <Font name="SansSerif Regular" size="14.0" />
+                     </font>
+                  </Label>
+               </children>
+            </HBox>
+            <ListView fx:id="usersListView" prefHeight="490.0" prefWidth="176.0" />
+         </children>
+      </VBox>
+   </left>
+   <top>
+      <BorderPane prefHeight="72.0" prefWidth="1000.0" BorderPane.alignment="CENTER">
+         <left>
+            <HBox alignment="CENTER_LEFT" prefHeight="96.0" prefWidth="281.0" BorderPane.alignment="CENTER">
+               <children>
+                  <ImageView fx:id="userImage" fitHeight="96.0" fitWidth="116.0" pickOnBounds="true" preserveRatio="true" />
+                  <VBox alignment="CENTER" prefHeight="96.0" prefWidth="149.0">
+                     <children>
+                        <Label text="User:">
+                           <font>
+                              <Font size="18.0" />
+                           </font>
+                        </Label>
+                        <Label fx:id="userNameLabel" text="Label" />
+                     </children>
+                  </VBox>
+                  <ComboBox fx:id="statusComboBox" prefWidth="150.0" promptText="Online">
+                     <items>
+                        <FXCollections fx:factory="observableArrayList">
+                           <String fx:value="Online" />
+                           <String fx:value="Away" />
+                           <String fx:value="Busy" />
+                        </FXCollections>
+                     </items>
+                  </ComboBox>
+               </children></HBox>
+         </left>
+         <right>
+            <HBox prefHeight="100.0" prefWidth="200.0" BorderPane.alignment="CENTER" />
+         </right>
+         <center>
+            <ImageView fitHeight="65.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" BorderPane.alignment="CENTER" />
+         </center>
+      </BorderPane>
+   </top>
+   <center>
+      <VBox prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER">
+         <children>
+            <ScrollPane prefHeight="478.0" prefWidth="824.0">
+              <content>
+                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="411.0" prefWidth="767.0">
+                     <children>
+                        <ListView fx:id="listMessagesView" layoutX="1.0" layoutY="6.0" prefHeight="395.0" prefWidth="754.0" />
+                     </children></AnchorPane>
+              </content>
+            </ScrollPane>
+            <HBox prefHeight="59.0" prefWidth="824.0">
+               <children>
+                  <TextArea fx:id="inputMessageBox" nodeOrientation="LEFT_TO_RIGHT" onKeyPressed="#sendMethod" prefHeight="43.0" prefWidth="635.0" promptText="Enter your Message... " scaleShape="false" HBox.hgrow="ALWAYS" />
+                  <Button fx:id="submitButton" mnemonicParsing="false" onAction="#sendButtonAction" prefHeight="43.0" prefWidth="135.0" text="Send" />
+                  <Button fx:id="recordBtn" mnemonicParsing="false" onMousePressed="#recordVoiceMessage" prefHeight="43.0" prefWidth="65.0">
+                     <graphic>
+                        <ImageView fx:id="microphoneImageView" fitHeight="33.0" fitWidth="31.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../../../../../../../../JavaFX-Chat/client/src/main/resources/images/microphone.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                  </Button>
+               </children>
+            </HBox>
+         </children>
+      </VBox>
+   </center>
+</BorderPane>
