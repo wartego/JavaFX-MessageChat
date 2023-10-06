@@ -6,9 +6,11 @@ import java.net.Socket;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import pl.messagechat.messageChat.login.LoginController;
+import pl.messagechat.messageChat.login.SocketController;
 import pl.messagechat.messageChat.messages.Message;
 import pl.messagechat.messageChat.messages.MessageType;
 import pl.messagechat.messageChat.messages.Status;
+import pl.messagechat.messageChat.messages.UserOnlyLogin;
 
 public class Listener implements Runnable{
     private static final String HASCONNECTED = "has connected";
@@ -31,11 +33,12 @@ public class Listener implements Runnable{
         Listener.username = username;
         Listener.picture = picture;
         this.controller = controller;
+
     }
 
     @Override
     public void run() {
-        try{
+        try {
             socket = new Socket("localhost",5555);
             LoginController.getInstance().showScene();
             outputStream = socket.getOutputStream();
@@ -54,7 +57,6 @@ public class Listener implements Runnable{
                 while(socket.isConnected()){
                     Message message = null;
                     message = (Message) input.readObject();
-
                     if (message != null) {
                         logger.debug("Message recieved:" + message.getMsg() + " MessageType:" + message.getType() + "Name:" + message.getName());
                         switch (message.getType()) {
@@ -93,6 +95,14 @@ public class Listener implements Runnable{
         createMessage.setMsg(HASCONNECTED);
         createMessage.setPicture(picture);
         oos.writeObject(createMessage);
+    }
+
+    private static void firstLoginSendToServer() throws IOException {
+        UserOnlyLogin userOnlyLogin = new UserOnlyLogin();
+        userOnlyLogin.setLogin(LoginController.getInstance().getLoginChoose());
+        userOnlyLogin.setPassword(LoginController.getInstance().getPasswordChoose());
+        userOnlyLogin.setMessageType(MessageType.FIRSTLOGIN);
+        oos.writeObject(userOnlyLogin);
     }
     /* This method is used for sending a normal Message
      * @param msg - The message which the user generates

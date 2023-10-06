@@ -19,16 +19,21 @@ import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Circle;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import pl.messagechat.messageChat.chat.ChatController;
 import pl.messagechat.messageChat.chat.Listener;
 import pl.messagechat.messageChat.main.MessageLinkApplication;
+import pl.messagechat.messageChat.messages.MessageType;
+import pl.messagechat.messageChat.messages.UserOnlyLogin;
 import pl.messagechat.messageChat.scene.SceneController;
 import pl.messagechat.messageChat.database.DatabaseConnection;
 import pl.messagechat.messageChat.util.ResizeHelper;
 import pl.messagechat.messageChat.utils.PasswordValidation;
 
 
-import java.io.IOException;
+import java.io.*;
+import java.net.Socket;
 import java.net.URL;
 import java.sql.*;
 import java.util.Objects;
@@ -44,6 +49,8 @@ public class LoginController implements Initializable {
     private String currentUser;
     private double xOffset;
     private double yOffset;
+    private String loginChoose;
+    private String passwordChoose;
 
     @FXML private Button loginButton;
     @FXML private Button cancelButton;
@@ -57,6 +64,18 @@ public class LoginController implements Initializable {
     @FXML private BorderPane borderPane;
     private static Image defaultUserImage;
     private Scene scene;
+    static Logger logger = LoggerFactory.getLogger(LoginController.class);
+
+    private ObjectOutputStream oos ;
+    private InputStream is;
+    private ObjectInputStream input;
+    private OutputStream outputStream;
+    private Socket socket ;
+
+
+
+
+
 
     public LoginController(){
         instance = this;
@@ -65,8 +84,25 @@ public class LoginController implements Initializable {
         return instance;
     }
 
+    public String getLoginChoose() {
+        return loginChoose;
+    }
+
+    public void setLoginChoose(String loginChoose) {
+        this.loginChoose = loginChoose;
+    }
+
+    public String getPasswordChoose() {
+        return passwordChoose;
+    }
+
+    public void setPasswordChoose(String passwordChoose) {
+        this.passwordChoose = passwordChoose;
+    }
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+
 
         //insert Main Logo
         circleLogo.setStroke(Color.WHITE);
@@ -122,12 +158,62 @@ public class LoginController implements Initializable {
         currentStage.close();
     }
     @FXML
-    protected void loginButtonOnClick(ActionEvent event) throws SQLException, IOException {
+    protected void loginButtonOnClick(ActionEvent event) throws IOException {
 
+        System.out.println("Login start");
         if (!loginTextField.getText().isBlank() && !passwordTextField.getText().isBlank()) {
             loginMessageLabel.setText("You try to login");
-//            validateLogin(event); // call Method
             String userName = loginTextField.getText();
+            setLoginChoose(loginTextField.getText());
+            setPasswordChoose(passwordTextField.getText());
+            try{
+                if(socket == null){
+                    socket = new Socket("localhost",5555);
+                }
+                if(outputStream == null){
+                    outputStream = socket.getOutputStream();
+                }
+                if(oos == null){
+                    oos = new ObjectOutputStream(outputStream);
+                }
+                if(is == null){
+                    is = socket.getInputStream();
+                }
+                if(input == null){
+                    input = new ObjectInputStream(is);
+                }
+
+            } catch (IOException e) {
+                logger.error("Could not Connect IO Exception");
+            }
+            logger.info("Connection accepted " + socket.getInetAddress() + ":" + socket.getPort());
+
+            try {
+                UserOnlyLogin userOnlyLogin = new UserOnlyLogin();
+                userOnlyLogin.setPassword(passwordChoose);
+                userOnlyLogin.setLogin(loginChoose);
+                userOnlyLogin.setMessageType(MessageType.FIRSTLOGIN);
+                oos.writeObject(userOnlyLogin);
+                oos.flush();
+                logger.info("Seneded login to verification");
+                while(true){
+                    UserOnlyLogin o = (UserOnlyLogin) input.readObject();
+                    if(o != null){
+                        if(o.getLogin().equals("NO")){
+                            logger.info("Password is incorrect, please try again");
+                            System.out.println("Password is incorrect, please try again");
+                        } else {
+                             logger.info("password match");
+                            System.out.println("password match");
+                            break; // becouse program should work futher
+                        }
+                    }
+                }
+            } catch (Exception e){
+                e.printStackTrace();
+                logger.error("Something goes wrong during login verification");
+            }
+
 
             FXMLLoader fmxlLoader = new FXMLLoader(getClass().getResource("/pl/messagechat/messageChat/chat/chat-page.fxml"));
             Parent window = (Pane) fmxlLoader.load();
@@ -148,31 +234,7 @@ public class LoginController implements Initializable {
         loginTextField.setText("");
         passwordTextField.setText("");
     }
-    @FXML
-    protected void validateLogin(ActionEvent event) throws SQLException{
 
-        PreparedStatement preparedStatement = connection.prepareStatement("SELECT password FROM users WHERE login = ? ");
-        preparedStatement.setString(1,loginTextField.getText());
-        try{
-            ResultSet quaryResult = preparedStatement.executeQuery();
-            while (quaryResult.next()){
-                if(PasswordValidation.ifHashMatchToPassword(quaryResult.getString(1), passwordTextField.getText())){
-                    currentUser = loginTextField.getText();
-                    loginMessageLabel.setText("LOGIN MATCH");
-                    SceneController.switchToSceneChatWindow(event);
-                    //ClientSocket.newClient();
-                } else {
-                    loginMessageLabel.setText("Incorrect login or password, please try again!");
-                }
-            }
-        } catch (SQLException e){
-            e.printStackTrace();
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-
-
-    }
     @FXML
     protected void registrationSwitch(ActionEvent event) throws IOException {
        SceneController.switchToSceneRegistration(event);
