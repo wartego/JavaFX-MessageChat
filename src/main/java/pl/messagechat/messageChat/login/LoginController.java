@@ -195,39 +195,40 @@ public class LoginController implements Initializable {
                 userOnlyLogin.setMessageType(MessageType.FIRSTLOGIN);
                 oos.writeObject(userOnlyLogin);
                 oos.flush();
-                logger.info("Seneded login to verification");
-                while(true){
+                logger.info("Sended login to verification");
+                    ///tutaj program czeka na
                     UserOnlyLogin o = (UserOnlyLogin) input.readObject();
                     if(o != null){
                         if(o.getLogin().equals("NO")){
+                            loginMessageLabel.setText("WRONG LOGIN/PASSWORD!");
                             logger.info("Password is incorrect, please try again");
                             System.out.println("Password is incorrect, please try again");
                         } else {
-                             logger.info("password match");
+                            logger.info("password match");
                             System.out.println("password match");
-                            break; // becouse program should work futher
+
+                            openChatPageAfterSuccessfulLogin(userName);
                         }
                     }
-                }
             } catch (Exception e){
                 e.printStackTrace();
                 logger.error("Something goes wrong during login verification");
             }
-
-
-            FXMLLoader fmxlLoader = new FXMLLoader(getClass().getResource("/pl/messagechat/messageChat/chat/chat-page.fxml"));
-            Parent window = (Pane) fmxlLoader.load();
-            chatController = fmxlLoader.<ChatController>getController();
-            Listener listener = new Listener(hostname, port, userName, picture, chatController);
-            this.scene = new Scene(window);
-            Thread x = new Thread(listener);
-            x.start();
-
         } else {
             loginMessageLabel.setText("Please input login and password first!");
             setUserAndPasswordFieldBlank();
             //todo
         }
+    }
+
+    private void openChatPageAfterSuccessfulLogin(String userName) throws IOException {
+        FXMLLoader fmxlLoader = new FXMLLoader(getClass().getResource("/pl/messagechat/messageChat/chat/chat-page.fxml"));
+        Parent window = (Pane) fmxlLoader.load();
+        chatController = fmxlLoader.<ChatController>getController();
+        Listener listener = new Listener(hostname, port, userName, picture, chatController);
+        this.scene = new Scene(window);
+        Thread x = new Thread(listener);
+        x.start();
     }
 
     private void setUserAndPasswordFieldBlank() {

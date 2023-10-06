@@ -95,7 +95,10 @@
                               <Font name="MS Reference Sans Serif" size="12.0" />
                            </font>
                         </Button>
-                        <Label fx:id="loginMessageLabel" prefHeight="24.0" prefWidth="119.0" />
+                        <Label fx:id="loginMessageLabel" prefHeight="24.0" prefWidth="119.0">
+                           <font>
+                              <Font size="6.0" />
+                           </font></Label>
                      </children>
                   </HBox>
                   <HBox alignment="CENTER" prefHeight="40.0" prefWidth="350.0">
