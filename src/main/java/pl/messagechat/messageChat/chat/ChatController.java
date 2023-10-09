@@ -62,14 +62,11 @@ public class ChatController implements Initializable {
     @FXML private ListView usersListView;
     @FXML private ImageView microphoneImageView;
     @FXML private BorderPane borderPane;
-
+    private Logger logger = LoggerFactory.getLogger(ChatController.class);
     private double xOffset;
     private double yOffset;
-
-    Image microphoneActiveImage = new Image(Objects.requireNonNull(getClass().getResourceAsStream("/pictures/microphone-active.png")));
-    Image microphoneInactiveImage = new Image(Objects.requireNonNull(getClass().getResourceAsStream("/pictures/microphone.png")));
-
-    Logger logger = LoggerFactory.getLogger(ChatController.class);
+    private Image microphoneActiveImage = new Image(Objects.requireNonNull(getClass().getResourceAsStream("/pictures/microphone-active.png")));
+    private Image microphoneInactiveImage = new Image(Objects.requireNonNull(getClass().getResourceAsStream("/pictures/microphone.png")));
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
