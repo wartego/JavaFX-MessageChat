@@ -15,20 +15,17 @@ import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Circle;
 import javafx.stage.Stage;
 import org.kordamp.ikonli.javafx.FontIcon;
-import pl.messagechat.messageChat.emails.EmailBody;
-import pl.messagechat.messageChat.emails.EmailService;
-import pl.messagechat.messageChat.utils.PasswordValidation;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import pl.messagechat.messageChat.messages.Message;
+import pl.messagechat.messageChat.messages.UserNew;
 import pl.messagechat.messageChat.scene.SceneController;
-import pl.messagechat.messageChat.database.DatabaseConnection;
 
-import java.io.IOException;
+import java.io.*;
+import java.net.Socket;
 import java.net.URL;
 import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
+
 import java.util.Random;
 import java.util.ResourceBundle;
 import java.util.regex.Matcher;
@@ -82,6 +79,13 @@ public class RegisterController implements Initializable {
     @FXML
     private Label lastNameLabelVerify;
 
+    private ObjectOutputStream oos ;
+    private InputStream is;
+    private ObjectInputStream input;
+    private OutputStream outputStream;
+    private Socket socket ;
+    Logger logger = LoggerFactory.getLogger(RegisterController.class);
+
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -95,121 +99,121 @@ public class RegisterController implements Initializable {
         //set verification text field to disable
         verificationCodeTextField.setDisable(true);
         verificationCodeLabel.setDisable(true);
-
-        //SQL DatabaseConnection
-        try {
-            databaseConnection = DatabaseConnection.getConnection();
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-
-
-
         //register button and verification label  at begining is not visiable
         registerButton.setVisible(false);
         infoVerificationSendLabel.setVisible(false);
     }
 
     @FXML
-    protected void userRegistry(ActionEvent event) {
-
-        String insertNewUserQuery = ("INSERT INTO echoLink.users (login, password, FirstName, LastName, Role, email, createDate, verificationCode) " +
-                "VALUES (?, ?, ?, ?, ?, ?, ?, ?);");
+    protected void submitButtonAction(ActionEvent event) throws IOException  {
+        //generate 8 digits CODE for verification
+        randomCodeValue = getRandomCode();
+        //get connection
         try{
-            PreparedStatement preparedStatement = databaseConnection.prepareStatement(insertNewUserQuery);
-
-            preparedStatement.setString(1,loginTextField.getText());
-            preparedStatement.setString(2, PasswordValidation.hashPasswordUnderRegistration(passwordTextField.getText()));
-            preparedStatement.setString(3,firstNameTextField.getText());
-            preparedStatement.setString(4, lastNameTextField.getText());
-            preparedStatement.setString(5, "BASIC_USER");
-            preparedStatement.setString(6, emailTextField.getText());
-            preparedStatement.setString(7, getActualDateAndTime());
-            preparedStatement.setString(8, randomCodeValue);
-
-            //check If user exist already in database
-            if(userExist){
-                loginLabelVerify.setText("Please choose different login!");
-            } else{
-                preparedStatement.executeUpdate();
-                //switch to Registration Success Page
-                SceneController.switchToSceneRegistrationSuccessWindow(event);
+            if(socket == null){
+                socket = new Socket("localhost",5555);
             }
-        } catch (SQLException e){
-            e.printStackTrace();
+            if(outputStream == null){
+                outputStream = socket.getOutputStream();
+            }
+            if(oos == null){
+                oos = new ObjectOutputStream(outputStream);
+            }
+            if(is == null){
+                is = socket.getInputStream();
+            }
+            if(input == null){
+                input = new ObjectInputStream(is);
+            }
+            logger.info("Connection accepted " + socket.getInetAddress() + ":" + socket.getPort());
+
         } catch (IOException e) {
+            logger.error("Could not Connect IO Exception, probably Socket connection is null");
+        }
+
+        UserNew userNew = UserNew.builder()
+            .login(loginTextField.getText())
+            .password(passwordTextField.getText())
+            .email(emailTextField.getText())
+            .firstName(firstNameTextField.getText())
+            .lastName(lastNameTextField.getText())
+            .verificationCode(randomCodeValue)
+            .build();
+
+        //Send registration form to Server
+        oos.writeObject(userNew);
+        oos.flush();
+
+        logger.info("sended registration form to server for user: " + loginTextField.getText());
+        //Respond from server
+        try{
+            Message message = (Message) input.readObject();
+            if(message.getMsg().contains("Success")){
+                verificationCodeTextField.setDisable(false);
+                verificationCodeLabel.setDisable(false);
+                infoVerificationSendLabel.setVisible(true);
+                submitButton.setVisible(false);
+                registerButton.setVisible(true);
+
+                // here should be added writeObject and send confifmation to server to add user to SQL
+            } else {
+                logger.info(message.getMsg());
+            }
+        } catch (ClassNotFoundException e) {
+            logger.info("Class not found exception!");
             throw new RuntimeException(e);
         }
+
     }
 
     @FXML
-    protected boolean checkIfUserExist(){
-        int queryResultInt = 2;
-        String countLogin = ("SELECT COUNT(*) AS 'LOGINEXIST' FROM users where login = ?");
-        try {
-            PreparedStatement statement = databaseConnection.prepareStatement(countLogin);
-            statement.setString(1,loginTextField.getText());
-            ResultSet queryResult = statement.executeQuery();
-            while (queryResult.next()) {
-                queryResultInt = queryResult.getInt("LOGINEXIST");
-                System.out.println(queryResultInt);
-            }
-        } catch (Exception e){
-            e.printStackTrace();
-        }
-        if (queryResultInt == 1){
-            loginLabelVerify.setText("User already exist!!");
-            loginLabelVerify.setStyle("-fx-text-fill: #ff0117");
-            userExist = true;
-            return true;
-        } else {
-            loginLabelVerify.setText("User is available!!");
-            loginLabelVerify.setStyle("-fx-text-fill: #60ff00;-fx-font-size: 20px");
-            userExist = false;
-            return false;
-        }
+    protected void userRegistry(ActionEvent event) throws IOException {
+                //switch to Registration Success Page
+                SceneController.switchToSceneRegistrationSuccessWindow(event);
     }
+
+//    @FXML
+//    protected boolean checkIfUserExist(){
+//
+//        if (queryResultInt == 1){
+//            loginLabelVerify.setText("User already exist!!");
+//            loginLabelVerify.setStyle("-fx-text-fill: #ff0117");
+//            userExist = true;
+//            return true;
+//        } else {
+//            loginLabelVerify.setText("User is available!!");
+//            loginLabelVerify.setStyle("-fx-text-fill: #60ff00;-fx-font-size: 20px");
+//            userExist = false;
+//            return false;
+//        }
+//    }
 
     @FXML
     protected void closeStageButton(){
         Stage currentStage =  (Stage) cancelButton.getScene().getWindow();
         currentStage.close();
     }
-
     @FXML
     protected void cancelButton(ActionEvent event) throws IOException {
         SceneController.switchToSceneHello(event);
     }
-    @FXML
-    protected void submitButtonAction(ActionEvent event) throws IOException {
-        verificationCodeTextField.setDisable(false);
-        verificationCodeLabel.setDisable(false);
-        //generate 8 digits CODE for verifiaction
-        randomCodeValue = getRandomCode();
 
-        //email sending
-        EmailBody.getFileFromResourceAsStream();
-        String emailbody = EmailBody.replaceKeyWordInBodyEmail(firstNameTextField.getText(), randomCodeValue);
-        EmailService service = new EmailService();
-        service.getEmailConfigResources(emailbody);
-        infoVerificationSendLabel.setVisible(true);
-        submitButton.setVisible(false);
-        registerButton.setVisible(true);
-    }
-    protected boolean emailVerifiaction(String emailFromInput){
-        Pattern pattern = Pattern.compile("^([_a-zA-Z0-9-]+(\\.[_a-zA-Z0-9-]+)*@[a-zA-Z0-9-]+(\\.[a-zA-Z0-9-]+)*(\\.[a-zA-Z]{1,6}))?$");
-        Matcher matcher = pattern.matcher(emailFromInput);
-        return matcher.matches();
-    }
+
+
     @FXML
     protected void emailVerficationAction(){
-        if(emailVerifiaction(emailTextField.getText()) && !emailTextField.getText().isEmpty()){
+        if(emailVerifiactionPattern(emailTextField.getText()) && !emailTextField.getText().isEmpty()){
             emailLabelVerify.setText("Verification ok");
             emailLabelVerify.setStyle("-fx-text-fill: #0fec0f ; -fx-font-size: 10px");
         } else{
             emailLabelVerify.setText("Wrong email");
             emailLabelVerify.setStyle("-fx-text-fill: rgba(255,0,0,0.84) ; -fx-font-size: 8px ; -fx-font-weight: bold" );
         }
+    }
+    protected boolean emailVerifiactionPattern(String emailFromInput){
+        Pattern pattern = Pattern.compile("^([_a-zA-Z0-9-]+(\\.[_a-zA-Z0-9-]+)*@[a-zA-Z0-9-]+(\\.[a-zA-Z0-9-]+)*(\\.[a-zA-Z]{1,6}))?$");
+        Matcher matcher = pattern.matcher(emailFromInput);
+        return matcher.matches();
     }
     @FXML
     protected void inputDataValidationIfNotNull(){
@@ -219,19 +223,13 @@ public class RegisterController implements Initializable {
         if(!lastNameTextField.getText().isEmpty()) lastNameLabelVerify.setText("OK");
     }
 
-    protected String getActualDateAndTime(){
-        LocalDateTime date = LocalDateTime.now();
-        return date.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
-
-    }
-
     protected String getRandomCode(){
         Random random = new Random();
         int i = random.nextInt(999999-100000+1)+100000;
         return String.valueOf(i);
     }
     @FXML
-    protected boolean codeVerification(ActionEvent event){
+    protected boolean codeVerification(ActionEvent event) throws IOException {
         if(randomCodeValue.equals(verificationCodeTextField.getText())){
             infoVerificationSendLabel.setText("Verification code match, registration success");
             userRegistry(event);
