@@ -28,7 +28,6 @@ public class CellRenderer implements Callback<ListView<User>, ListCell<User>> {
                 setText(null);
                 if (user != null) {
                     HBox hBox = new HBox();
-
                     Text name = new Text(user.getUserName());
 
                     ImageView statusImageView = new ImageView();

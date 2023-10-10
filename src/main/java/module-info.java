@@ -13,6 +13,7 @@ module pl.wartego.messagelink{
     requires spring.security.crypto;
     requires slf4j.api;
     requires javafx.media;
+    requires lombok;
 
 
     exports pl.messagechat.messageChat.database;
@@ -25,8 +26,6 @@ module pl.wartego.messagelink{
     opens pl.messagechat.messageChat.utils to javafx.fxml;
     exports pl.messagechat.messageChat.chat;
     opens pl.messagechat.messageChat.chat to javafx.fxml;
-    exports pl.messagechat.messageChat.emails;
-    opens pl.messagechat.messageChat.emails to javafx.fxml;
     exports pl.messagechat.messageChat.main;
     opens pl.messagechat.messageChat.main to javafx.fxml;
     exports pl.messagechat.messageChat.scene;

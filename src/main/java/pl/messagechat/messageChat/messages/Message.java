@@ -8,23 +8,24 @@ public class Message implements Serializable {
     private String name;
     private MessageType type;
     private String msg;
+    private Status status;
+    private String picture;
+
     private int count;
     private ArrayList<User> list;
     private ArrayList<User> users;
 
-    private Status status;
+
 
     public byte[] getVoiceMsg() {
         return voiceMsg;
     }
-
     private byte[] voiceMsg;
+
 
     public String getPicture() {
         return picture;
     }
-
-    private String picture;
 
     public Message() {
     }

@@ -14,10 +14,8 @@ public class ClientSocket {
             socket = new Socket("localhost",5555);
             inputStreamReader = new InputStreamReader(socket.getInputStream());
             outputStreamWriter = new OutputStreamWriter(socket.getOutputStream());
-
             bufferedReader = new BufferedReader(inputStreamReader);
             bufferedWriter = new BufferedWriter(outputStreamWriter);
-//            Scanner scanner = new Scanner(System.in);
         } catch (IOException e){
             e.printStackTrace();
         }

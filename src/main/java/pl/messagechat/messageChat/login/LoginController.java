@@ -29,7 +29,7 @@ import pl.messagechat.messageChat.messages.UserOnlyLogin;
 import pl.messagechat.messageChat.scene.SceneController;
 import pl.messagechat.messageChat.database.DatabaseConnection;
 import pl.messagechat.messageChat.util.ResizeHelper;
-import pl.messagechat.messageChat.utils.PasswordValidation;
+
 
 
 import java.io.*;
@@ -40,7 +40,7 @@ import java.util.Objects;
 import java.util.ResourceBundle;
 
 public class LoginController implements Initializable {
-    private Connection  connection;
+    private Connection connection;
     private String hostname = "localhost";
     private int port = 5555;
     private String picture = "Dominic";
@@ -152,11 +152,7 @@ public class LoginController implements Initializable {
         }
     }
 
-    @FXML
-    protected void closeStage(){
-        Stage currentStage =  (Stage) circleLogo.getScene().getWindow();
-        currentStage.close();
-    }
+
     @FXML
     protected void loginButtonOnClick(ActionEvent event) throws IOException {
 
@@ -241,11 +237,6 @@ public class LoginController implements Initializable {
        SceneController.switchToSceneRegistration(event);
     }
 
-    @FXML
-    protected void sendEmail(){
-//        EmailService service = new EmailService();
-//        service.getEmailConfigResources();
-    }
 
     public static Image getDefaultUserImage() {
         return defaultUserImage;
@@ -277,6 +268,11 @@ public class LoginController implements Initializable {
     public void closeSystem(){
         Platform.exit();
         System.exit(0);
+    }
+    @FXML
+    protected void closeStage(){
+        Stage currentStage =  (Stage) circleLogo.getScene().getWindow();
+        currentStage.close();
     }
     public void minimizeWindow(){
         MessageLinkApplication.getPrimaryStageObj().setIconified(true);
