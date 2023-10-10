@@ -120,8 +120,6 @@ public class ChatController implements Initializable {
 //        userImage.setImage(image);
 //        userImage.setFitWidth(60);
     }
-
-
     public void setOnlineLabel(String usercount) {
         Platform.runLater(() -> onlineCountLabel.setText(usercount));
     }
@@ -140,7 +138,6 @@ public class ChatController implements Initializable {
             sendButtonAction();
         }
     }
-
     @FXML
     private void sendButtonAction() throws IOException {
         String msg = inputMessageBox.getText();
@@ -276,7 +273,7 @@ public class ChatController implements Initializable {
             tray.setImage(profileImg);
             tray.showAndDismiss(Duration.seconds(5));
             try {
-                Media hit = new Media(getClass().getResource("/sounds/notification.wav").toExternalForm());
+                Media hit = new Media(getClass().getResource("/sounds/Messenger_Facebook.wav").toExternalForm());
                 MediaPlayer mediaPlayer = new MediaPlayer(hit);
                 mediaPlayer.play();
             } catch (Exception e) {

@@ -88,6 +88,7 @@ public class Listener implements Runnable {
         createMessage.setName(username);
         createMessage.setType(MessageType.STATUS);
         createMessage.setStatus(status);
+        createMessage.setMsg("changed to: " + status);
         createMessage.setPicture(picture);
         oos.writeObject(createMessage);
         oos.flush();
