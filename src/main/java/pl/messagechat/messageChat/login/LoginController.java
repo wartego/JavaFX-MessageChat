@@ -156,7 +156,7 @@ public class LoginController implements Initializable {
     @FXML
     protected void loginButtonOnClick(ActionEvent event) throws IOException {
 
-        System.out.println("Login start");
+        logger.info("Login procedure started");
         if (!loginTextField.getText().isBlank() && !passwordTextField.getText().isBlank()) {
             loginMessageLabel.setText("You try to login");
             String userName = loginTextField.getText();
@@ -179,30 +179,33 @@ public class LoginController implements Initializable {
                     input = new ObjectInputStream(is);
                 }
 
-            } catch (IOException e) {
+            } catch (IOException | NullPointerException e) {
                 logger.error("Could not Connect IO Exception");
+                //show error dialog
+                LoginController.getInstance().showErrorDialog("Warning"
+                        ,"Could not connect to server"
+                        ,Alert.AlertType.WARNING
+                        ,"Please check for firewall issues and check if the server is running."
+                );
             }
-            logger.info("Connection accepted " + socket.getInetAddress() + ":" + socket.getPort());
+            //logger.info("Connection accepted " + socket.getInetAddress() + ":" + socket.getPort());
 
             try {
-                UserOnlyLogin userOnlyLogin = new UserOnlyLogin();
-                userOnlyLogin.setPassword(passwordChoose);
-                userOnlyLogin.setLogin(loginChoose);
-                userOnlyLogin.setMessageType(MessageType.FIRSTLOGIN);
-                oos.writeObject(userOnlyLogin);
-                oos.flush();
-                logger.info("Sended login to verification");
-                    ///tutaj program czeka na
+                //sending login and password to server for verification
+                sendLoginCredentialToServer();
+                ///waiting for respond from server
                     UserOnlyLogin o = (UserOnlyLogin) input.readObject();
                     if(o != null){
                         if(o.getLogin().equals("NO")){
+                            //login and password are not match with database
                             loginMessageLabel.setText("WRONG LOGIN/PASSWORD!");
+                            loginTextField.setStyle("-fx-border-color: red; -fx-border-radius: 11px; -fx-border-width: 4px");
                             logger.info("Password is incorrect, please try again");
-                            System.out.println("Password is incorrect, please try again");
+                            LoginController.getInstance().showErrorDialog("Warning","Wrong password or login", Alert.AlertType.WARNING,"Please check your password and login first!");
                         } else {
-                            logger.info("password match");
-                            System.out.println("password match");
-
+                            //login and password are match with database
+                            logger.info("Password match with login");
+                            //opening Chat FXML page and forwarding choosen Login
                             openChatPageAfterSuccessfulLogin(userName);
                         }
                     }
@@ -212,9 +215,19 @@ public class LoginController implements Initializable {
             }
         } else {
             loginMessageLabel.setText("Please input login and password first!");
+            //clearing login and password text fields
             setUserAndPasswordFieldBlank();
-            //todo
         }
+    }
+
+    private void sendLoginCredentialToServer() throws IOException {
+        UserOnlyLogin userOnlyLogin = new UserOnlyLogin();
+        userOnlyLogin.setPassword(passwordChoose);
+        userOnlyLogin.setLogin(loginChoose);
+        userOnlyLogin.setMessageType(MessageType.FIRSTLOGIN);
+        oos.writeObject(userOnlyLogin);
+        oos.flush();
+        logger.info("Sended login to verification");
     }
 
     private void openChatPageAfterSuccessfulLogin(String userName) throws IOException {
@@ -223,6 +236,7 @@ public class LoginController implements Initializable {
         chatController = fmxlLoader.<ChatController>getController();
         Listener listener = new Listener(hostname, port, userName, picture, chatController);
         this.scene = new Scene(window);
+        //New thread Listener
         Thread x = new Thread(listener);
         x.start();
     }
@@ -278,12 +292,12 @@ public class LoginController implements Initializable {
         MessageLinkApplication.getPrimaryStageObj().setIconified(true);
     }
 
-    public void showErrorDialog(String message) {
+    public void showErrorDialog(String title, String message, Alert.AlertType alertType, String contextType) {
         Platform.runLater(()-> {
-            Alert alert = new Alert(Alert.AlertType.WARNING);
-            alert.setTitle("Warning!");
+            Alert alert = new Alert(alertType);
+            alert.setTitle(title);
             alert.setHeaderText(message);
-            alert.setContentText("Please check for firewall issues and check if the server is running.");
+            alert.setContentText(contextType);
             alert.showAndWait();
         });
     }

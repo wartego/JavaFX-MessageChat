@@ -75,7 +75,6 @@ public final class TrayNotification {
 
             fxmlLoader.setController(this);
             fxmlLoader.load();
-
             initStage();
             initAnimations();
 
@@ -96,7 +95,7 @@ public final class TrayNotification {
     }
 
     private void initStage() {
-
+        rootNode.setStyle("-fx-background-radius: 20 ; -fx-border-radius: 10;-fx-border-color: rgba(0,0,0,0.12); -fx-border-width: 2;  -fx-background-color: rgba(255,255,255,0);");
         stage = new CustomStage(rootNode, StageStyle.UNDECORATED);
         stage.setScene(new Scene(rootNode));
         stage.setAlwaysOnTop(true);
