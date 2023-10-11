@@ -15,6 +15,7 @@ public class SocketController {
     private static ObjectInputStream input;
     private static InputStream is;
     private static OutputStream outputStream;
+
     static Logger logger = LoggerFactory.getLogger(SocketController.class);
 
 
@@ -44,6 +45,8 @@ public static boolean createSocketConnection()  {
         return false;
     }
 }
+
+
 public static void closeSocketConnection(){
     try {
         if (socket != null) {

@@ -10,6 +10,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Circle;
+import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import org.kordamp.ikonli.javafx.FontIcon;
 import org.slf4j.Logger;
@@ -23,7 +24,6 @@ import pl.messagechat.messageChat.utils.SocketController;
 import java.io.*;
 import java.net.Socket;
 import java.net.URL;
-import java.sql.Connection;
 
 import java.util.Random;
 import java.util.ResourceBundle;
@@ -33,50 +33,32 @@ import java.util.regex.Pattern;
 public class RegisterController implements Initializable {
     private boolean userExist;
     private String randomCodeValue;
+    private File fileToSend;
 
-    public Connection databaseConnection;
+    @FXML private Button cancelButton;
+    @FXML private Button submitButton;
+    @FXML private Button registerButton;
+    @FXML private Button exitButton;
+    @FXML private Button chooseImageButton;
+    @FXML private Circle circleExit;
+    @FXML private ImageView selectedProfileImage;
 
-    @FXML
-    private Button cancelButton;
-    @FXML
-    private Button submitButton;
-    @FXML
-    private Button registerButton;
-    @FXML
-    private Button exitButton;
-    @FXML
-    private Circle circleExit;
-
-    @FXML
-    private TextField loginTextField;
-    @FXML
-    private PasswordField passwordTextField;
-    @FXML
-    private TextField emailTextField;
-    @FXML
-    private TextField firstNameTextField;
-    @FXML
-    private TextField lastNameTextField;
-    @FXML
-    private TextField verificationCodeTextField;
-    @FXML
-    private Label verificationCodeLabel;
-    @FXML
-    private Label infoVerificationSendLabel;
-    @FXML
-    private FontIcon verificationCodeIcon;
+    @FXML private TextField loginTextField;
+    @FXML private PasswordField passwordTextField;
+    @FXML private TextField emailTextField;
+    @FXML private TextField firstNameTextField;
+    @FXML private TextField lastNameTextField;
+    @FXML private TextField verificationCodeTextField;
+    @FXML private Label verificationCodeLabel;
+    @FXML private Label infoVerificationSendLabel;
+    @FXML private FontIcon verificationCodeIcon;
 
     //labels
-    @FXML
-    private Label loginLabelVerify;
-    @FXML
-    private Label passwordLabelVerify;
-    @FXML
-    private Label emailLabelVerify;
-    @FXML
-    private Label firstNameLabelVerify;
-    @FXML
-    private Label lastNameLabelVerify;
+    @FXML private Label loginLabelVerify;
+    @FXML private Label passwordLabelVerify;
+    @FXML private Label emailLabelVerify;
+    @FXML private Label firstNameLabelVerify;
+    @FXML private Label lastNameLabelVerify;
 
     private ObjectOutputStream oos ;
     private InputStream is;
@@ -151,6 +133,7 @@ public class RegisterController implements Initializable {
                 registerButton.setVisible(true);
 
                 // here should be added writeObject and send confifmation to server to add user to SQL
+                sendImagetoServer();
             } else {
                 logger.info(message.getMsg());
             }
@@ -234,5 +217,44 @@ public class RegisterController implements Initializable {
             return false;
         }
     }
+    @FXML
+    protected void setChooseImageButtonAction() throws IOException {
+
+        FileChooser fileChooser = new FileChooser();
+        fileToSend = fileChooser.showOpenDialog( (Stage) cancelButton.getScene().getWindow());
+        if(fileToSend != null){
+            System.out.println(fileToSend.getAbsolutePath());
+            logger.info("choosen Image path: " + fileToSend.getCanonicalPath());
+        }
+    }
+
+
+    protected void sendImagetoServer(){
+        if(fileToSend != null){
+            try(FileInputStream fileInputStream = new FileInputStream(fileToSend.getAbsolutePath())){
+
+                DataOutputStream dataOutputStream = new DataOutputStream(outputStream);
+                String fileName = fileToSend.getName();
+                byte[] fileNameBytes = fileName.getBytes();
+
+                byte[] fileContentBytes = new byte[(int) fileToSend.length()];
+                fileInputStream.read(fileContentBytes);
+
+                dataOutputStream.writeInt(fileNameBytes.length);
+                dataOutputStream.write(fileNameBytes);
+
+                dataOutputStream.writeInt(fileContentBytes.length);
+                dataOutputStream.write(fileContentBytes);
+                //dataOutputStream.close();
+            } catch (IOException e){
+                logger.error("Something goes wrong during sending file to server!");
+            }
+        } else {
+            logger.error("file is null");
+        }
+
+
+    }
+
 
 }

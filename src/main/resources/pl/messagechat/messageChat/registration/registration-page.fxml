@@ -6,6 +6,7 @@
 <?import javafx.scene.control.PasswordField?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.effect.Glow?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
@@ -45,7 +46,7 @@
    <center>
       <AnchorPane prefHeight="600.0" prefWidth="703.0" style="-fx-background-color: #e7e7e7;" BorderPane.alignment="CENTER">
          <children>
-            <Text fontSmoothingType="LCD" layoutX="178.0" layoutY="56.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Please register:" textAlignment="CENTER" wrappingWidth="370.0">
+            <Text fontSmoothingType="LCD" layoutX="211.0" layoutY="66.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Register you account:" textAlignment="CENTER" wrappingWidth="370.0">
                <font>
                   <Font size="39.0" />
                </font>
@@ -60,7 +61,7 @@
                </graphic>
             </Button>
             <Button fx:id="cancelButton" layoutX="386.0" layoutY="514.0" mnemonicParsing="false" onAction="#cancelButton" prefHeight="35.0" prefWidth="250.0" style="-fx-background-radius: 9px;" text="Cancel" />
-            <HBox layoutX="94.0" layoutY="91.0" prefHeight="380.0" prefWidth="570.0">
+            <HBox layoutX="186.0" layoutY="110.0" prefHeight="380.0" prefWidth="570.0">
                <children>
                   <VBox prefHeight="350.0" prefWidth="469.0" spacing="20.0">
                      <children>
@@ -79,7 +80,7 @@
                                     <Font size="13.0" />
                                  </font>
                               </Label>
-                              <TextField fx:id="loginTextField" nodeOrientation="LEFT_TO_RIGHT" onMouseEntered="#inputDataValidationIfNotNull" prefHeight="44.0" prefWidth="316.0" promptText="Your login" style="-fx-background-color: white; -fx-background-radius: 8px; -fx-border-color: transparent;" />
+                              <TextField fx:id="loginTextField" nodeOrientation="LEFT_TO_RIGHT" onMouseEntered="#inputDataValidationIfNotNull" prefHeight="44.0" prefWidth="316.0" promptText="choose your login" style="-fx-background-color: white; -fx-background-radius: 8px; -fx-border-color: transparent;" />
                            </children>
                            <VBox.margin>
                               <Insets top="5.0" />
@@ -100,7 +101,7 @@
                                     <Font size="13.0" />
                                  </font>
                               </Label>
-                              <PasswordField fx:id="passwordTextField"  onMouseEntered="#inputDataValidationIfNotNull" prefHeight="44.0" prefWidth="316.0" promptText="Password" style="-fx-background-color: white; -fx-background-radius: 8px; -fx-border-color: transparent;" />
+                              <PasswordField fx:id="passwordTextField" onMouseEntered="#inputDataValidationIfNotNull" prefHeight="44.0" prefWidth="316.0" promptText="choose your password" style="-fx-background-color: white; -fx-background-radius: 8px; -fx-border-color: transparent;" />
                            </children>
                            <padding>
                               <Insets left="2.0" />
@@ -121,7 +122,7 @@
                                     <Font size="13.0" />
                                  </font>
                               </Label>
-                              <TextField fx:id="emailTextField" prefHeight="44.0" prefWidth="316.0" promptText="Your email" style="-fx-background-color: white; -fx-background-radius: 8px; -fx-border-color: transparent;" />
+                              <TextField fx:id="emailTextField" prefHeight="44.0" prefWidth="316.0" promptText="choose your  email" style="-fx-background-color: white; -fx-background-radius: 8px; -fx-border-color: transparent;" />
                            </children>
                         </HBox>
                         <HBox prefHeight="40.0" prefWidth="350.0">
@@ -139,7 +140,7 @@
                                     <Font size="13.0" />
                                  </font>
                               </Label>
-                              <TextField fx:id="firstNameTextField" onMouseClicked="#emailVerficationAction" onMouseEntered="#inputDataValidationIfNotNull" prefHeight="44.0" prefWidth="316.0" promptText="First name" style="-fx-background-color: white; -fx-background-radius: 8px; -fx-border-color: transparent;" />
+                              <TextField fx:id="firstNameTextField" onMouseClicked="#emailVerficationAction" onMouseEntered="#inputDataValidationIfNotNull" prefHeight="44.0" prefWidth="316.0" promptText="choose your first name" style="-fx-background-color: white; -fx-background-radius: 8px; -fx-border-color: transparent;" />
                            </children>
                         </HBox>
                         <HBox prefHeight="40.0" prefWidth="350.0">
@@ -157,7 +158,7 @@
                                     <Font size="13.0" />
                                  </font>
                               </Label>
-                              <TextField fx:id="lastNameTextField" onMouseEntered="#inputDataValidationIfNotNull" prefHeight="44.0" prefWidth="316.0" promptText="Last name" style="-fx-background-color: white; -fx-background-radius: 8px; -fx-border-color: transparent;" />
+                              <TextField fx:id="lastNameTextField" onMouseEntered="#inputDataValidationIfNotNull" prefHeight="44.0" prefWidth="316.0" promptText="choose your last name" style="-fx-background-color: white; -fx-background-radius: 8px; -fx-border-color: transparent;" />
                            </children>
                         </HBox>
                         <HBox prefHeight="40.0" prefWidth="350.0">
@@ -212,7 +213,7 @@
                   </VBox>
                </children>
             </HBox>
-            <Label fx:id="infoVerificationSendLabel" layoutX="101.0" layoutY="450.0" prefHeight="30.0" prefWidth="437.0" text="Verification code was send to your email account. Please copy it here." textFill="#41eb47">
+            <Label fx:id="infoVerificationSendLabel" layoutX="102.0" layoutY="475.0" prefHeight="30.0" prefWidth="437.0" text="Verification code was send to your email account. Please copy it here." textFill="#41eb47">
                <effect>
                   <Glow level="0.63" />
                </effect>
@@ -221,6 +222,8 @@
                </font>
             </Label>
             <Button fx:id="submitButton" layoutX="86.0" layoutY="514.0" mnemonicParsing="false" onAction="#submitButtonAction" prefHeight="35.0" prefWidth="250.0" style="-fx-background-radius: 9px;" text="Submit to send verification code" />
+            <ImageView fx:id="selectedProfileImage" fitHeight="94.0" fitWidth="119.0" layoutX="43.0" layoutY="206.0" pickOnBounds="true" preserveRatio="true" />
+            <Button fx:id="chooseImageButton" layoutX="37.0" layoutY="333.0" mnemonicParsing="false" onAction="#setChooseImageButtonAction" text="Choose profile image" />
          </children></AnchorPane>
    </center>
 </BorderPane>
