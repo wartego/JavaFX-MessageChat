@@ -16,8 +16,6 @@ module pl.wartego.messagelink{
     requires lombok;
 
 
-    exports pl.messagechat.messageChat.database;
-    opens pl.messagechat.messageChat.database to javafx.fxml;
     exports pl.messagechat.messageChat.login;
     opens pl.messagechat.messageChat.login to javafx.fxml;
     exports pl.messagechat.messageChat.registration;

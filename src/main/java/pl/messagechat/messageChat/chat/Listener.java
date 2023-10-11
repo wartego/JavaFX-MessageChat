@@ -9,6 +9,7 @@ import pl.messagechat.messageChat.messages.Message;
 import pl.messagechat.messageChat.messages.MessageType;
 import pl.messagechat.messageChat.messages.Status;
 import pl.messagechat.messageChat.messages.UserOnlyLogin;
+import pl.messagechat.messageChat.utils.SocketController;
 
 import java.io.*;
 import java.net.Socket;
@@ -38,19 +39,28 @@ public class Listener implements Runnable {
 
     @Override
     public void run() {
-        try {
-            socket = new Socket("localhost", 5555);
-            LoginController.getInstance().showScene();
-            outputStream = socket.getOutputStream();
-            oos = new ObjectOutputStream(outputStream);
-            is = socket.getInputStream();
-            input = new ObjectInputStream(is);
-        } catch (IOException | NullPointerException e) {
-            LoginController.getInstance().showErrorDialog("Warning","Could not connect to server", Alert.AlertType.WARNING,"Please check for firewall issues and check if the server is running.");
-            logger.error("Could not Connect to server");
-        }
-        logger.info("Connection accepted " + socket.getInetAddress() + ":" + socket.getPort());
 
+         //creating SocketConnection
+            boolean socketConnectionSuccess = SocketController.createSocketConnection();
+            if(socketConnectionSuccess){
+                socket = SocketController.getSocket();
+                LoginController.getInstance().showScene();
+                outputStream = SocketController.getOutputStream();
+                oos = SocketController.getOos();
+                is = SocketController.getIs();
+                input = SocketController.getInput();
+                logger.info("Connection accepted " + socket.getInetAddress() + ":" + socket.getPort());
+            } else{
+                logger.error("Could not Connect IO Exception");
+                //show error dialog
+                LoginController.getInstance().showErrorDialog("Warning"
+                        ,"Could not connect to server"
+                        ,Alert.AlertType.WARNING
+                        ,"Please check for firewall issues and check if the server is running."
+                );
+            }
+
+        //further working of program
         try {
             connect();
             logger.info("Socket in and out ready");

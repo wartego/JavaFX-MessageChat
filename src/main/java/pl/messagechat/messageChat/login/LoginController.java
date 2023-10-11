@@ -27,9 +27,8 @@ import pl.messagechat.messageChat.main.MessageLinkApplication;
 import pl.messagechat.messageChat.messages.MessageType;
 import pl.messagechat.messageChat.messages.UserOnlyLogin;
 import pl.messagechat.messageChat.scene.SceneController;
-import pl.messagechat.messageChat.database.DatabaseConnection;
 import pl.messagechat.messageChat.util.ResizeHelper;
-
+import pl.messagechat.messageChat.utils.SocketController;
 
 
 import java.io.*;
@@ -53,6 +52,7 @@ public class LoginController implements Initializable {
     private String passwordChoose;
 
     @FXML private Button loginButton;
+    @FXML private Button minimizeButton;
     @FXML private Button cancelButton;
     @FXML private Button registerButton;
     @FXML private Circle circleLogo;
@@ -144,12 +144,6 @@ public class LoginController implements Initializable {
             borderPane.setCursor(Cursor.DEFAULT);
         });
 
-        //DateBaseConnection
-        try {
-           connection = DatabaseConnection.getConnection();
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
     }
 
 
@@ -162,24 +156,17 @@ public class LoginController implements Initializable {
             String userName = loginTextField.getText();
             setLoginChoose(loginTextField.getText());
             setPasswordChoose(passwordTextField.getText());
-            try{
-                if(socket == null){
-                    socket = new Socket("localhost",5555);
-                }
-                if(outputStream == null){
-                    outputStream = socket.getOutputStream();
-                }
-                if(oos == null){
-                    oos = new ObjectOutputStream(outputStream);
-                }
-                if(is == null){
-                    is = socket.getInputStream();
-                }
-                if(input == null){
-                    input = new ObjectInputStream(is);
-                }
 
-            } catch (IOException | NullPointerException e) {
+            //creating SocketConnection
+            boolean socketConnectionSuccess = SocketController.createSocketConnection();
+            if(socketConnectionSuccess){
+                socket = SocketController.getSocket();
+                outputStream = SocketController.getOutputStream();
+                oos = SocketController.getOos();
+                is = SocketController.getIs();
+                input = SocketController.getInput();
+                logger.info("Connection accepted " + socket.getInetAddress() + ":" + socket.getPort());
+            } else{
                 logger.error("Could not Connect IO Exception");
                 //show error dialog
                 LoginController.getInstance().showErrorDialog("Warning"
@@ -188,7 +175,6 @@ public class LoginController implements Initializable {
                         ,"Please check for firewall issues and check if the server is running."
                 );
             }
-            //logger.info("Connection accepted " + socket.getInetAddress() + ":" + socket.getPort());
 
             try {
                 //sending login and password to server for verification
@@ -280,6 +266,7 @@ public class LoginController implements Initializable {
     }
 
     public void closeSystem(){
+        SocketController.closeSocketConnection();
         Platform.exit();
         System.exit(0);
     }
