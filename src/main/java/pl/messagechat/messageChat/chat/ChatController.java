@@ -146,12 +146,6 @@ public class ChatController implements Initializable {
             inputMessageBox.clear();
         }
     }
-
-    @FXML
-    public void closeApplication() {
-        Platform.exit();
-        System.exit(0);
-    }
     /* Method to display server messages */
     public synchronized void addAsServer(Message msg) {
         Task<HBox> task = new Task<HBox>() {
@@ -210,7 +204,7 @@ public class ChatController implements Initializable {
                 HBox x = new HBox();
                 bl6.setBubbleSpec(BubbleSpec.FACE_LEFT_CENTER);
                 x.getChildren().addAll(profileImage, bl6);
-                logger.debug("ONLINE USERS: " + Integer.toString(msg.getUserlist().size()));
+                logger.debug("ONLINE USERS: " + (msg.getUserlist().size()));
                 setOnlineLabel(Integer.toString(msg.getOnlineCount()));
                 return x;
             }
@@ -222,7 +216,7 @@ public class ChatController implements Initializable {
 
         Task<HBox> yourMessages = new Task<HBox>() {
             @Override
-            public HBox call() throws Exception {
+            public HBox call() {
                 Image image = userImage.getImage();
                 ImageView profileImage = new ImageView(image);
                 profileImage.setFitHeight(32);
@@ -276,26 +270,26 @@ public class ChatController implements Initializable {
                 Media hit = new Media(getClass().getResource("/sounds/Messenger_Facebook.wav").toExternalForm());
                 MediaPlayer mediaPlayer = new MediaPlayer(hit);
                 mediaPlayer.play();
-            } catch (Exception e) {
+            } catch (NullPointerException e) {
                 e.printStackTrace();
             }
 
         });
     }
-    public void recordVoiceMessage() throws IOException {
+    public void recordVoiceMessage() {
         if (VoiceUtil.isRecording()) {
-            Platform.runLater(() -> {
-                        microphoneImageView.setImage(microphoneInactiveImage);
-                    }
+            Platform.runLater(() -> microphoneImageView.setImage(microphoneInactiveImage)
             );
             VoiceUtil.setRecording(false);
         } else {
-            Platform.runLater(() -> {
-                        microphoneImageView.setImage(microphoneActiveImage);
-
-                    }
+            Platform.runLater(() -> microphoneImageView.setImage(microphoneActiveImage)
             );
             VoiceRecorder.captureAudio();
         }
+    }
+    @FXML
+    public void closeApplication() {
+        Platform.exit();
+        System.exit(0);
     }
 }

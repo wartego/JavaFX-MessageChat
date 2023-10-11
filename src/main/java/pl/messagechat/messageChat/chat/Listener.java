@@ -1,6 +1,7 @@
 package pl.messagechat.messageChat.chat;
 
 import javafx.event.ActionEvent;
+import javafx.scene.control.Alert;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import pl.messagechat.messageChat.login.LoginController;
@@ -8,6 +9,7 @@ import pl.messagechat.messageChat.messages.Message;
 import pl.messagechat.messageChat.messages.MessageType;
 import pl.messagechat.messageChat.messages.Status;
 import pl.messagechat.messageChat.messages.UserOnlyLogin;
+import pl.messagechat.messageChat.utils.SocketController;
 
 import java.io.*;
 import java.net.Socket;
@@ -33,6 +35,66 @@ public class Listener implements Runnable {
         Listener.picture = picture;
         this.controller = controller;
 
+    }
+
+    @Override
+    public void run() {
+
+         //creating SocketConnection
+            boolean socketConnectionSuccess = SocketController.createSocketConnection();
+            if(socketConnectionSuccess){
+                socket = SocketController.getSocket();
+                LoginController.getInstance().showScene();
+                outputStream = SocketController.getOutputStream();
+                oos = SocketController.getOos();
+                is = SocketController.getIs();
+                input = SocketController.getInput();
+                logger.info("Connection accepted " + socket.getInetAddress() + ":" + socket.getPort());
+            } else{
+                logger.error("Could not Connect IO Exception");
+                //show error dialog
+                LoginController.getInstance().showErrorDialog("Warning"
+                        ,"Could not connect to server"
+                        ,Alert.AlertType.WARNING
+                        ,"Please check for firewall issues and check if the server is running."
+                );
+            }
+
+        //further working of program
+        try {
+            connect();
+            logger.info("Socket in and out ready");
+            while (socket.isConnected()) {
+                Message message = null;
+                message = (Message) input.readObject();
+                if (message != null) {
+                    logger.debug("Message recieved:" + message.getMsg() + " MessageType:" + message.getType() + "Name:" + message.getName());
+                    switch (message.getType()) {
+                        case USER, VOICE:
+                            controller.addToChat(message);
+                            break;
+                        case NOTIFICATION:
+                            controller.newUserNotification(message);
+                            break;
+                        case SERVER:
+                            controller.addAsServer(message);
+                            break;
+                        case CONNECTED:
+                            controller.setUserList(message);
+                            break;
+                        case DISCONNECTED:
+                            controller.setUserList(message);
+                            break;
+                        case STATUS:
+                            controller.setUserList(message);
+                            break;
+                    }
+                }
+            }
+        } catch (IOException | ClassNotFoundException e) {
+            controller.logoutScene(new ActionEvent());
+            e.printStackTrace();
+        }
     }
 
     private static void connect() throws IOException {
@@ -94,55 +156,6 @@ public class Listener implements Runnable {
         oos.flush();
     }
 
-    @Override
-    public void run() {
-        try {
-            socket = new Socket("localhost", 5555);
-            LoginController.getInstance().showScene();
-            outputStream = socket.getOutputStream();
-            oos = new ObjectOutputStream(outputStream);
-            is = socket.getInputStream();
-            input = new ObjectInputStream(is);
-        } catch (IOException e) {
-            LoginController.getInstance().showErrorDialog("Could not connect to server");
-            logger.error("Could not Connect");
-        }
-        logger.info("Connection accepted " + socket.getInetAddress() + ":" + socket.getPort());
 
-        try {
-            connect();
-            logger.info("Socket in and out ready");
-            while (socket.isConnected()) {
-                Message message = null;
-                message = (Message) input.readObject();
-                if (message != null) {
-                    logger.debug("Message recieved:" + message.getMsg() + " MessageType:" + message.getType() + "Name:" + message.getName());
-                    switch (message.getType()) {
-                        case USER, VOICE:
-                            controller.addToChat(message);
-                            break;
-                        case NOTIFICATION:
-                            controller.newUserNotification(message);
-                            break;
-                        case SERVER:
-                            controller.addAsServer(message);
-                            break;
-                        case CONNECTED:
-                            controller.setUserList(message);
-                            break;
-                        case DISCONNECTED:
-                            controller.setUserList(message);
-                            break;
-                        case STATUS:
-                            controller.setUserList(message);
-                            break;
-                    }
-                }
-            }
-        } catch (IOException | ClassNotFoundException e) {
-            controller.logoutScene(new ActionEvent());
-            e.printStackTrace();
-        }
-    }
 
 }

@@ -3,10 +3,7 @@ package pl.messagechat.messageChat.registration;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.PasswordField;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -17,9 +14,11 @@ import javafx.stage.Stage;
 import org.kordamp.ikonli.javafx.FontIcon;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import pl.messagechat.messageChat.login.LoginController;
 import pl.messagechat.messageChat.messages.Message;
 import pl.messagechat.messageChat.messages.UserNew;
 import pl.messagechat.messageChat.scene.SceneController;
+import pl.messagechat.messageChat.utils.SocketController;
 
 import java.io.*;
 import java.net.Socket;
@@ -109,26 +108,22 @@ public class RegisterController implements Initializable {
         //generate 8 digits CODE for verification
         randomCodeValue = getRandomCode();
         //get connection
-        try{
-            if(socket == null){
-                socket = new Socket("localhost",5555);
-            }
-            if(outputStream == null){
-                outputStream = socket.getOutputStream();
-            }
-            if(oos == null){
-                oos = new ObjectOutputStream(outputStream);
-            }
-            if(is == null){
-                is = socket.getInputStream();
-            }
-            if(input == null){
-                input = new ObjectInputStream(is);
-            }
+        boolean socketConnectionSuccess = SocketController.createSocketConnection();
+        if(socketConnectionSuccess){
+            socket = SocketController.getSocket();
+            oos = SocketController.getOos();
+            is = SocketController.getIs();
+            input = SocketController.getInput();
+            outputStream = SocketController.getOutputStream();
             logger.info("Connection accepted " + socket.getInetAddress() + ":" + socket.getPort());
-
-        } catch (IOException e) {
-            logger.error("Could not Connect IO Exception, probably Socket connection is null");
+        } else{
+            logger.error("Could not Connect IO Exception");
+            //show error dialog
+            LoginController.getInstance().showErrorDialog("Warning"
+                    ,"Could not connect to server"
+                    , Alert.AlertType.WARNING
+                    ,"Please check for firewall issues and check if the server is running."
+            );
         }
 
         UserNew userNew = UserNew.builder()

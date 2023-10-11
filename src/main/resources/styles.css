@@ -3,3 +3,11 @@
     -fx-border-radius: 100;
     -fx-background-color: white;  /*Ustaw kolor tła */
 }
+
+.rounded-corner {
+    -fx-background-radius: 10;
+    -fx-border-radius: 10;
+    -fx-border-color: #000000;
+    -fx-border-width: 2;
+    -fx-background-color: #FFFFFF;
+}
