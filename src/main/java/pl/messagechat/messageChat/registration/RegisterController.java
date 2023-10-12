@@ -141,7 +141,6 @@ public class RegisterController implements Initializable {
             logger.info("Class not found exception!");
             throw new RuntimeException(e);
         }
-
     }
 
     @FXML
