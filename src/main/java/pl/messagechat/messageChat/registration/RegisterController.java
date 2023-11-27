@@ -125,7 +125,7 @@ public class RegisterController implements Initializable {
         //Respond from server
         try{
             Message message = (Message) input.readObject();
-            if(message.getMsg().contains("Success")){
+            if(message.getMessageBody().contains("Success")){
                 verificationCodeTextField.setDisable(false);
                 verificationCodeLabel.setDisable(false);
                 infoVerificationSendLabel.setVisible(true);
@@ -135,7 +135,7 @@ public class RegisterController implements Initializable {
                 // here should be added writeObject and send confifmation to server to add user to SQL
                 sendImagetoServer();
             } else {
-                logger.info(message.getMsg());
+                logger.info(message.getMessageBody());
             }
         } catch (ClassNotFoundException e) {
             logger.info("Class not found exception!");

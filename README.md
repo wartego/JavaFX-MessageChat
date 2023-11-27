@@ -22,8 +22,6 @@ https://github.com/karolkraw/LottoGame-client
 * [REST-API Endpoints](#rest-api-endpoints)
 
 
-
-
 ## General Information
 MessageChat is begining
 
@@ -40,8 +38,6 @@ MessageChat is begining
 - Integration Tests with TestContainers, TestRestTemplate and WireMock
 - All modules containerized in Docker
 - Spring Boot Scheduler used for generating winning numbers
-
-
 
 ## Technologies Used
 
@@ -85,7 +81,6 @@ DevOps: <br>
   ``
   docker compose up
   `` (all images will be pulled from Docker Hub and the application will start)
-
 
 ## Rest-API Endpoints
 

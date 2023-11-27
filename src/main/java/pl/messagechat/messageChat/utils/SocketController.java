@@ -1,6 +1,7 @@
 package pl.messagechat.messageChat.utils;
 
 import lombok.Getter;
+import lombok.Setter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -8,12 +9,17 @@ import java.io.*;
 import java.net.Socket;
 
 
-public class SocketController {
-    private static Socket socket;
 
+public class SocketController {
+    @Getter
+    private static Socket socket;
+    @Getter
     private static ObjectOutputStream oos;
+    @Getter
     private static ObjectInputStream input;
+    @Getter
     private static InputStream is;
+    @Getter
     private static OutputStream outputStream;
 
     static Logger logger = LoggerFactory.getLogger(SocketController.class);
@@ -68,28 +74,4 @@ public static void closeSocketConnection(){
         logger.error("Something goes wrong during close Socket connection!");
     }
 }
-
-    public static Socket getSocket() {
-        return socket;
-    }
-
-    public static ObjectOutputStream getOos() {
-        return oos;
-    }
-
-    public static InputStream getIs() {
-        return is;
-    }
-
-    public static ObjectInputStream getInput() {
-        return input;
-    }
-
-    public static OutputStream getOutputStream() {
-        return outputStream;
-    }
-
-    public static Logger getLogger() {
-        return logger;
-    }
 }

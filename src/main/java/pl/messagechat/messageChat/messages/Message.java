@@ -5,9 +5,10 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 public class Message implements Serializable {
-    private String name;
+    private String sender;
+    private String receiver;
     private MessageType type;
-    private String msg;
+    private String messageBody;
     private Status status;
     private String picture;
 
@@ -30,21 +31,29 @@ public class Message implements Serializable {
     public Message() {
     }
 
-    public String getName() {
-        return name;
+    public String getSender() {
+        return sender;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setSender(String sender) {
+        this.sender = sender;
     }
 
-    public String getMsg() {
-
-        return msg;
+    public String getReceiver() {
+        return receiver;
     }
 
-    public void setMsg(String msg) {
-        this.msg = msg;
+    public void setReceiver(String receiver) {
+        this.receiver = receiver;
+    }
+
+    public String getMessageBody() {
+
+        return messageBody;
+    }
+
+    public void setMessageBody(String messageBody) {
+        this.messageBody = messageBody;
     }
 
     public MessageType getType() {
