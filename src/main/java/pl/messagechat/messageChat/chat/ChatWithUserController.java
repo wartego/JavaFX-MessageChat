@@ -1,7 +1,6 @@
 package pl.messagechat.messageChat.chat;
 
 import javafx.application.Platform;
-import javafx.beans.Observable;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
@@ -22,9 +21,9 @@ import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
-
 import javafx.util.Duration;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -39,17 +38,15 @@ import pl.messagechat.messageChat.scene.SceneController;
 import pl.messagechat.messageChat.traynotifications.animations.AnimationType;
 import pl.messagechat.messageChat.traynotifications.notification.TrayNotification;
 import pl.messagechat.messageChat.util.VoicePlayback;
-import javafx.scene.media.MediaPlayer;
 import pl.messagechat.messageChat.util.VoiceRecorder;
 import pl.messagechat.messageChat.util.VoiceUtil;
-
 
 import java.io.IOException;
 import java.net.URL;
 import java.util.Objects;
 import java.util.ResourceBundle;
 
-public class ChatController implements Initializable {
+public class ChatWithUserController implements Initializable {
     @FXML private Button recordBtn;
     @FXML private ComboBox statusComboBox;
 
@@ -60,11 +57,10 @@ public class ChatController implements Initializable {
     @FXML private TextArea inputMessageBox;
     @FXML private Button submitButton;
     @FXML private ListView listMessagesView;
-
     @FXML private ListView usersListView;
     @FXML private ImageView microphoneImageView;
     @FXML private BorderPane borderPane;
-    private Logger logger = LoggerFactory.getLogger(ChatController.class);
+    private Logger logger = LoggerFactory.getLogger(ChatWithUserController.class);
     private double xOffset;
     private double yOffset;
     private Image microphoneActiveImage = new Image(Objects.requireNonNull(getClass().getResourceAsStream("/pictures/microphone-active.png")));
@@ -111,24 +107,7 @@ public class ChatController implements Initializable {
             borderPane.setCursor(Cursor.DEFAULT);
         });
 
-        //listener for choose correct user from List View
-        usersListView.getSelectionModel().selectedItemProperty().addListener(this::selectedUser);
-
     }
-
-    //listener for choose correct user from List View
-    private void selectedUser(Observable observable) {
-        User selectedUser = (User) usersListView.getSelectionModel().getSelectedItem();
-        if (selectedUser != null) {
-            String selectedUserName = selectedUser.getUserName();
-           // System.out.println("Selected User Name: " + selectedUserName);
-            inputMessageBox.setText(selectedUserName);
-        }
-    }
-
-
-
-
 
     public void setUserNameLabel(String username){
         this.userNameLabel.setText(username);
@@ -300,10 +279,6 @@ public class ChatController implements Initializable {
 
         });
     }
-
-
-
-
     public void recordVoiceMessage() {
         if (VoiceUtil.isRecording()) {
             Platform.runLater(() -> microphoneImageView.setImage(microphoneInactiveImage)
