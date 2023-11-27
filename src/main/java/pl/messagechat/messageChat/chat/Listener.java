@@ -68,7 +68,7 @@ public class Listener implements Runnable {
                 Message message = null;
                 message = (Message) input.readObject();
                 if (message != null) {
-                    logger.debug("Message recieved:" + message.getMsg() + " MessageType:" + message.getType() + "Name:" + message.getName());
+                    logger.debug("Message recieved:" + message.getMessageBody() + " MessageType:" + message.getType() + "Name:" + message.getSender());
                     switch (message.getType()) {
                         case USER, VOICE:
                             controller.addToChat(message);
@@ -99,9 +99,9 @@ public class Listener implements Runnable {
 
     private static void connect() throws IOException {
         Message createMessage = new Message();
-        createMessage.setName(username);
+        createMessage.setSender(username);
         createMessage.setType(MessageType.CONNECTED);
-        createMessage.setMsg(HASCONNECTED);
+        createMessage.setMessageBody(HASCONNECTED);
         createMessage.setPicture(picture);
         oos.writeObject(createMessage);
     }
@@ -116,10 +116,10 @@ public class Listener implements Runnable {
 
     public static void send(String msg) throws IOException {
         Message createMessage = new Message();
-        createMessage.setName(username);
+        createMessage.setSender(username);
         createMessage.setType(MessageType.USER);
         createMessage.setStatus(Status.AWAY);
-        createMessage.setMsg(msg);
+        createMessage.setMessageBody(msg);
         createMessage.setPicture(picture);
         oos.writeObject(createMessage);
         oos.flush();
@@ -133,7 +133,7 @@ public class Listener implements Runnable {
      */
     public static void sendVoiceMessage(byte[] audio) throws IOException {
         Message createMessage = new Message();
-        createMessage.setName(username);
+        createMessage.setSender(username);
         createMessage.setType(MessageType.VOICE);
         createMessage.setStatus(Status.AWAY);
         createMessage.setVoiceMsg(audio);
@@ -147,10 +147,10 @@ public class Listener implements Runnable {
      */
     public static void sendStatusUpdate(Status status) throws IOException {
         Message createMessage = new Message();
-        createMessage.setName(username);
+        createMessage.setSender(username);
         createMessage.setType(MessageType.STATUS);
         createMessage.setStatus(status);
-        createMessage.setMsg("changed to: " + status);
+        createMessage.setMessageBody("changed to: " + status);
         createMessage.setPicture(picture);
         oos.writeObject(createMessage);
         oos.flush();

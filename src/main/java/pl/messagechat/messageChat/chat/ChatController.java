@@ -152,7 +152,7 @@ public class ChatController implements Initializable {
             @Override
             public HBox call() throws Exception {
                 BubbledLabel bl6 = new BubbledLabel();
-                bl6.setText(msg.getMsg());
+                bl6.setText(msg.getMessageBody());
                 bl6.setBackground(new Background(new BackgroundFill(Color.ALICEBLUE,
                         null, null)));
                 HBox x = new HBox();
@@ -198,7 +198,7 @@ public class ChatController implements Initializable {
                     bl6.setText("Sent a voice message!");
                     VoicePlayback.playAudio(msg.getVoiceMsg());
                 }else {
-                    bl6.setText(msg.getName() + ": " + msg.getMsg());
+                    bl6.setText(msg.getSender() + ": " + msg.getMessageBody());
                 }
                 bl6.setBackground(new Background(new BackgroundFill(Color.WHITE,null, null)));
                 HBox x = new HBox();
@@ -228,7 +228,7 @@ public class ChatController implements Initializable {
                     bl6.setText("Sent a voice message!");
                     VoicePlayback.playAudio(msg.getVoiceMsg());
                 }else {
-                    bl6.setText(msg.getMsg());
+                    bl6.setText(msg.getMessageBody());
                 }
                 bl6.setBackground(new Background(new BackgroundFill(Color.LIGHTGREEN,
                         null, null)));
@@ -244,7 +244,7 @@ public class ChatController implements Initializable {
         };
         yourMessages.setOnSucceeded(event -> listMessagesView.getItems().add(yourMessages.getValue()));
 
-        if (msg.getName().equals(userNameLabel.getText())) {
+        if (msg.getSender().equals(userNameLabel.getText())) {
             Thread t2 = new Thread(yourMessages);
             t2.setDaemon(true);
             t2.start();
@@ -261,7 +261,7 @@ public class ChatController implements Initializable {
             Image profileImg = new Image(Objects.requireNonNull(getClass().getResourceAsStream("/pictures/" + msg.getPicture().toLowerCase() + ".png")),50,50,false,false);
             TrayNotification tray = new TrayNotification();
             tray.setTitle("A new user has joined!");
-            tray.setMessage(msg.getName() + " has joined the JavaFX Chatroom!");
+            tray.setMessage(msg.getSender() + " has joined the JavaFX Chatroom!");
             tray.setRectangleFill(Paint.valueOf("#2C3E50"));
             tray.setAnimationType(AnimationType.POPUP);
             tray.setImage(profileImg);
