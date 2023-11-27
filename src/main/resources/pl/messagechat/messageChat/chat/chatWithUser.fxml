@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.String?>
+<?import javafx.collections.FXCollections?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<BorderPane fx:id="borderPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="pl.messagechat.messageChat.chat.ChatWithUserController">
+   <left>
+      <VBox prefHeight="534.0" prefWidth="176.0" BorderPane.alignment="CENTER">
+         <children>
+            <HBox alignment="CENTER" prefHeight="45.0" prefWidth="176.0">
+               <children>
+                  <Label prefHeight="17.0" prefWidth="149.0" text="Online Users:">
+                     <HBox.margin>
+                        <Insets left="7.0" />
+                     </HBox.margin></Label>
+                  <Label fx:id="onlineCountLabel" prefHeight="32.0" prefWidth="119.0" text="Label">
+                     <opaqueInsets>
+                        <Insets />
+                     </opaqueInsets>
+                     <font>
+                        <Font name="SansSerif Regular" size="14.0" />
+                     </font>
+                  </Label>
+               </children>
+            </HBox>
+            <ListView fx:id="usersListView" prefHeight="490.0" prefWidth="176.0">
+               <VBox.margin>
+                  <Insets bottom="2.0" left="2.0" />
+               </VBox.margin></ListView>
+         </children>
+      </VBox>
+   </left>
+   <top>
+      <BorderPane prefHeight="72.0" prefWidth="1000.0" style="-fx-background-color: #445da9;" BorderPane.alignment="CENTER">
+         <left>
+            <HBox alignment="CENTER_LEFT" prefHeight="96.0" prefWidth="281.0" BorderPane.alignment="CENTER">
+               <children>
+                  <ImageView fx:id="userImage" fitHeight="80.0" fitWidth="80.0" pickOnBounds="true" preserveRatio="true">
+                     <HBox.margin>
+                        <Insets bottom="7.0" left="7.0" right="7.0" top="7.0" />
+                     </HBox.margin></ImageView>
+                  <VBox alignment="CENTER" prefHeight="96.0" prefWidth="149.0">
+                     <children>
+                        <Label text="User:">
+                           <font>
+                              <Font size="18.0" />
+                           </font>
+                        </Label>
+                        <Label fx:id="userNameLabel" text="Label" />
+                     </children>
+                  </VBox>
+                  <ComboBox fx:id="statusComboBox" prefWidth="150.0" promptText="Online">
+                     <items>
+                        <FXCollections fx:factory="observableArrayList">
+                           <String fx:value="Online" />
+                           <String fx:value="Away" />
+                           <String fx:value="Busy" />
+                        </FXCollections>
+                     </items>
+                  </ComboBox>
+               </children></HBox>
+         </left>
+         <right>
+            <HBox alignment="CENTER" prefHeight="96.0" prefWidth="124.0" BorderPane.alignment="CENTER">
+               <children>
+                  <ImageView fx:id="settingsImage" fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
+                     <HBox.margin>
+                        <Insets left="10.0" right="10.0" />
+                     </HBox.margin>
+                     <image>
+                        <Image url="@../../../../pictures/pngegg.png" />
+                     </image>
+                  </ImageView>
+                  <ImageView fx:id="closePicture" fitHeight="30.0" fitWidth="30.0" onMousePressed="#closeApplication" pickOnBounds="true" preserveRatio="true">
+                     <HBox.margin>
+                        <Insets left="10.0" right="10.0" />
+                     </HBox.margin>
+                     <image>
+                        <Image url="@../../../../pictures/close_normal.png" />
+                     </image>
+                  </ImageView>
+               </children>
+            </HBox>
+         </right>
+         <center>
+            <ImageView fitHeight="80.0" fitWidth="151.0" pickOnBounds="true" preserveRatio="true" BorderPane.alignment="CENTER">
+               <image>
+                  <Image url="@../../../../pictures/LogoMain.png" />
+               </image>
+               <BorderPane.margin>
+                  <Insets bottom="7.0" top="7.0" />
+               </BorderPane.margin></ImageView>
+         </center>
+      </BorderPane>
+   </top>
+   <center>
+      <VBox prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER">
+         <children>
+            <ScrollPane prefHeight="478.0" prefWidth="824.0">
+              <content>
+                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="441.0" prefWidth="806.0">
+                     <children>
+                        <ListView fx:id="listMessagesView" layoutX="1.0" layoutY="-1.0" prefHeight="461.0" prefWidth="816.0" />
+                        <Label text="Chat with user: " />
+                     </children></AnchorPane>
+              </content>
+               <VBox.margin>
+                  <Insets right="2.0" />
+               </VBox.margin>
+            </ScrollPane>
+            <HBox prefHeight="59.0" prefWidth="824.0">
+               <children>
+                  <TextArea fx:id="inputMessageBox" nodeOrientation="LEFT_TO_RIGHT" onKeyPressed="#sendMethod" prefHeight="43.0" prefWidth="635.0" promptText="Enter your Message... " scaleShape="false" HBox.hgrow="ALWAYS">
+                     <HBox.margin>
+                        <Insets />
+                     </HBox.margin></TextArea>
+                  <Button fx:id="submitButton" mnemonicParsing="false" onAction="#sendButtonAction" prefHeight="43.0" prefWidth="135.0" text="Send" />
+                  <Button fx:id="recordBtn" mnemonicParsing="false" onMousePressed="#recordVoiceMessage" prefHeight="43.0" prefWidth="65.0">
+                     <graphic>
+                        <ImageView fx:id="microphoneImageView" fitHeight="33.0" fitWidth="31.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../../../../../../../../JavaFX-Chat/client/src/main/resources/images/microphone.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                  </Button>
+               </children>
+               <VBox.margin>
+                  <Insets bottom="2.0" />
+               </VBox.margin>
+            </HBox>
+         </children>
+      </VBox>
+   </center>
+</BorderPane>

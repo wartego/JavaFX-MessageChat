@@ -1,7 +1,6 @@
 package pl.messagechat.messageChat.chat;
 
 import javafx.application.Platform;
-import javafx.beans.Observable;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
@@ -9,28 +8,25 @@ import javafx.collections.ObservableList;
 import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.geometry.Pos;
 import javafx.scene.Cursor;
-import javafx.scene.Node;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
-import javafx.scene.layout.*;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundFill;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
-
-import javafx.stage.Stage;
 import javafx.util.Duration;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import pl.messagechat.messageChat.login.LoginController;
 import pl.messagechat.messageChat.main.MessageLinkApplication;
 import pl.messagechat.messageChat.messages.Message;
 import pl.messagechat.messageChat.messages.MessageType;
@@ -42,20 +38,15 @@ import pl.messagechat.messageChat.scene.SceneController;
 import pl.messagechat.messageChat.traynotifications.animations.AnimationType;
 import pl.messagechat.messageChat.traynotifications.notification.TrayNotification;
 import pl.messagechat.messageChat.util.VoicePlayback;
-import javafx.scene.media.MediaPlayer;
 import pl.messagechat.messageChat.util.VoiceRecorder;
 import pl.messagechat.messageChat.util.VoiceUtil;
-
 
 import java.io.IOException;
 import java.net.URL;
 import java.util.Objects;
 import java.util.ResourceBundle;
 
-public class ChatController implements Initializable {
-    static ChatController instance;
-    public static ChatWithUserController chatWithUserController;
-    private Scene scene;
+public class ChatWithUserController implements Initializable {
     @FXML private Button recordBtn;
     @FXML private ComboBox statusComboBox;
 
@@ -66,22 +57,14 @@ public class ChatController implements Initializable {
     @FXML private TextArea inputMessageBox;
     @FXML private Button submitButton;
     @FXML private ListView listMessagesView;
-
     @FXML private ListView usersListView;
     @FXML private ImageView microphoneImageView;
     @FXML private BorderPane borderPane;
-    private Logger logger = LoggerFactory.getLogger(ChatController.class);
+    private Logger logger = LoggerFactory.getLogger(ChatWithUserController.class);
     private double xOffset;
     private double yOffset;
     private Image microphoneActiveImage = new Image(Objects.requireNonNull(getClass().getResourceAsStream("/pictures/microphone-active.png")));
     private Image microphoneInactiveImage = new Image(Objects.requireNonNull(getClass().getResourceAsStream("/pictures/microphone.png")));
-
-    public ChatController(){
-        instance = this;
-    }
-    public static ChatController getInstance(){
-        return instance;
-    }
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -124,61 +107,7 @@ public class ChatController implements Initializable {
             borderPane.setCursor(Cursor.DEFAULT);
         });
 
-        //listener for choose correct user from List View
-        //1) option
-            // usersListView.getSelectionModel().selectedItemProperty().addListener(this::selectedUser);
-
-        //2) option
-
-        usersListView.setOnMouseClicked(event -> {
-            if(event.getClickCount() == 2) {
-                ChatController.getInstance().showErrorDialog("Two time clicked"
-                        ,"Clicked"
-                        , Alert.AlertType.INFORMATION
-                        ,"You press two times"
-                );
-                User selectedUser = (User) usersListView.getSelectionModel().getSelectedItem();
-                if (selectedUser != null) {
-                String selectedUserName = selectedUser.getUserName();
-                // System.out.println("Selected User Name: " + selectedUserName);
-                inputMessageBox.setText(selectedUserName);
-                    try {
-                        openChatPageAfterSuccessfulLogin("test");
-                    } catch (IOException e) {
-                        throw new RuntimeException(e);
-                    }
-                }
-            } else if (event.getClickCount() == 1) {
-                    selectedUser();
-            }
-        });
-
     }
-
-    //listener for choose correct user from List View during one click
-    private void selectedUser() {
-
-        User selectedUser = (User) usersListView.getSelectionModel().getSelectedItem();
-        if (selectedUser != null) {
-            String selectedUserName = selectedUser.getUserName();
-           // System.out.println("Selected User Name: " + selectedUserName);
-            inputMessageBox.setText(selectedUserName);
-        }
-
-    }
-
-    public void showErrorDialog(String title, String message, Alert.AlertType alertType, String contextType) {
-        Platform.runLater(()-> {
-            Alert alert = new Alert(alertType);
-            alert.setTitle(title);
-            alert.setHeaderText(message);
-            alert.setContentText(contextType);
-            alert.showAndWait();
-        });
-    }
-
-
-
 
     public void setUserNameLabel(String username){
         this.userNameLabel.setText(username);
@@ -350,10 +279,6 @@ public class ChatController implements Initializable {
 
         });
     }
-
-
-
-
     public void recordVoiceMessage() {
         if (VoiceUtil.isRecording()) {
             Platform.runLater(() -> microphoneImageView.setImage(microphoneInactiveImage)
@@ -369,18 +294,5 @@ public class ChatController implements Initializable {
     public void closeApplication() {
         Platform.exit();
         System.exit(0);
-    }
-
-    private void openChatPageAfterSuccessfulLogin(String userName) throws IOException {
-        System.out.println("switch scene");
-        FXMLLoader fmxlLoader = new FXMLLoader(getClass().getResource("/pl/messagechat/messageChat/chat/chatWithUser.fxml"));
-        Parent window = (Pane) fmxlLoader.load();
-        //rootroot chatWithUserController = fmxlLoader.<ChatWithUserController>getController();
-        this.scene = new Scene(window);
-
-        Stage stage = (Stage) userImage.getScene().getWindow();
-        stage.setScene(scene);
-        stage.show();
-
     }
 }
