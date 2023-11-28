@@ -74,4 +74,12 @@ public static void closeSocketConnection(){
         logger.error("Something goes wrong during close Socket connection!");
     }
 }
+
+    public static OutputStream getOutputStream() {
+        return outputStream;
+    }
+
+    public static void setOutputStream(OutputStream outputStream) {
+        SocketController.outputStream = outputStream;
+    }
 }

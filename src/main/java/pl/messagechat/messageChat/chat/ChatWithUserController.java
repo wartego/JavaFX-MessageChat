@@ -27,6 +27,7 @@ import javafx.scene.paint.Paint;
 import javafx.util.Duration;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import pl.messagechat.messageChat.login.LoginController;
 import pl.messagechat.messageChat.main.MessageLinkApplication;
 import pl.messagechat.messageChat.messages.Message;
 import pl.messagechat.messageChat.messages.MessageType;
@@ -47,6 +48,13 @@ import java.util.Objects;
 import java.util.ResourceBundle;
 
 public class ChatWithUserController implements Initializable {
+
+    private static ChatWithUserController instance;
+    private String chatWithUser;
+    @FXML private Label chatWithUserLabel;
+
+
+
     @FXML private Button recordBtn;
     @FXML private ComboBox statusComboBox;
 
@@ -65,6 +73,14 @@ public class ChatWithUserController implements Initializable {
     private double yOffset;
     private Image microphoneActiveImage = new Image(Objects.requireNonNull(getClass().getResourceAsStream("/pictures/microphone-active.png")));
     private Image microphoneInactiveImage = new Image(Objects.requireNonNull(getClass().getResourceAsStream("/pictures/microphone.png")));
+
+
+    public ChatWithUserController(){
+        instance = this;
+    }
+    public static ChatWithUserController getInstance(){
+        return instance;
+    }
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -110,7 +126,7 @@ public class ChatWithUserController implements Initializable {
     }
 
     public void setUserNameLabel(String username){
-        this.userNameLabel.setText(username);
+        this.chatWithUserLabel.setText(username);
     }
     public void setImageLabel() throws IOException{
         this.userImage.setImage(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/pictures/dominic.png"))));

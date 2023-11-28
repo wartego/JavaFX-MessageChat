@@ -43,7 +43,6 @@ MessageChat is begining
 
 Backend: <br>
 <img src="https://img.shields.io/badge/17-Java-orange?style=for-the-badge"> &nbsp;
-<img src="https://img.shields.io/badge/Spring_Boot-F2F4F9?style=for-the-badge&logo=spring-boot"> &nbsp;
 <img src="https://img.shields.io/badge/MongoDB-4EA94B?style=for-the-badge&logo=mongodb&logoColor=white"> &nbsp;
 <img src="https://img.shields.io/badge/apache_maven-C71A36?style=for-the-badge&logo=apachemaven&logoColor=white"> &nbsp;
 </h2>
