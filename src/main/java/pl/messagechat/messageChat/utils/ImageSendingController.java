@@ -10,14 +10,16 @@ public class ImageSendingController {
 
     static Logger logger = LoggerFactory.getLogger(SocketController.class);
 
-    public static void sendImagetoServer(File fileToSend){
+    public static void sendImagetoServer(File fileToSend, String username){
         if(fileToSend != null){
             try(FileInputStream fileInputStream = new FileInputStream(fileToSend.getAbsolutePath())){
 
                 OutputStream outputStream = SocketController.getOutputStream();
                 DataOutputStream dataOutputStream = new DataOutputStream(outputStream);
-                String fileName = fileToSend.getName();
-                byte[] fileNameBytes = fileName.getBytes();
+                //String fileName = fileToSend.getName();
+                //changing File name to username + .png
+                username = username + ".png";
+                byte[] fileNameBytes = username.getBytes();
 
                 byte[] fileContentBytes = new byte[(int) fileToSend.length()];
                 fileInputStream.read(fileContentBytes);

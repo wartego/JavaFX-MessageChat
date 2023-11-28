@@ -117,6 +117,7 @@ public class Listener implements Runnable {
     public static void send(String msg) throws IOException {
         Message createMessage = new Message();
         createMessage.setSender(username);
+        createMessage.setReceiver("ALL");
         createMessage.setType(MessageType.USER);
         createMessage.setStatus(Status.AWAY);
         createMessage.setMessageBody(msg);

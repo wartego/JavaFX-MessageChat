@@ -135,7 +135,7 @@ public class RegisterController implements Initializable {
 
                 // here should be added writeObject and send confifmation to server to add user to SQL
                // sendImagetoServer();
-                ImageSendingController.sendImagetoServer(fileToSend);
+                ImageSendingController.sendImagetoServer(fileToSend,loginTextField.getText());
             } else {
                 logger.info(message.getMessageBody());
             }

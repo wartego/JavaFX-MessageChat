@@ -332,7 +332,7 @@ public class ChatController implements Initializable {
     /* Displays Notification when a user joins */
     public void newUserNotification(Message msg) {
         Platform.runLater(() -> {
-            Image profileImg = new Image(Objects.requireNonNull(getClass().getResourceAsStream("/pictures/" + msg.getPicture().toLowerCase() + ".png")),50,50,false,false);
+            Image profileImg = new Image(Objects.requireNonNull(getClass().getResourceAsStream("/pictures/userPictures/" + msg.getPicture().toLowerCase() + ".png")),50,50,false,false);
             TrayNotification tray = new TrayNotification();
             tray.setTitle("A new user has joined!");
             tray.setMessage(msg.getSender() + " has joined the JavaFX Chatroom!");
