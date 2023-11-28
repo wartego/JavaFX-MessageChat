@@ -42,7 +42,7 @@ public class LoginController implements Initializable {
     private Connection connection;
     private String hostname = "localhost";
     private int port = 5555;
-    private String picture = "Dominic";
+    private static String picture = "defaultLoginImage";
     private static LoginController instance;
     public static ChatController chatController;
     private String currentUser;
@@ -92,6 +92,10 @@ public class LoginController implements Initializable {
         this.loginChoose = loginChoose;
     }
 
+    public static String getPicture() {
+        return picture;
+    }
+
     public String getPasswordChoose() {
         return passwordChoose;
     }
@@ -121,7 +125,7 @@ public class LoginController implements Initializable {
         circleExit.setEffect(new DropShadow(20,Color.WHITE));
 
         // Set User Logo (default always the same)
-         defaultUserImage = new Image(Objects.requireNonNull(getClass().getResourceAsStream("/pictures/sarah.png")));
+         defaultUserImage = new Image(Objects.requireNonNull(getClass().getResourceAsStream("/pictures/userPictures/defaultLoginImage.png")));
         defaultUserImageView.setImage(defaultUserImage);
         defaultUserImageView.setFitHeight(60);
         defaultUserImageView.setFitWidth(60);
@@ -192,6 +196,7 @@ public class LoginController implements Initializable {
                             //login and password are match with database
                             logger.info("Password match with login");
                             //opening Chat FXML page and forwarding choosen Login
+                            picture = loginTextField.getText();
                             openChatPageAfterSuccessfulLogin(userName);
                         }
                     }
