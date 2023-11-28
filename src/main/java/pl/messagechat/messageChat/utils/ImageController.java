@@ -64,29 +64,27 @@ public class ImageController {
                     try{
                         FileOutputStream fileOutputStream = new FileOutputStream(fileToDownload);
                         fileOutputStream.write(fileContentBytes);
+                        logger.info("file was successfully saved");
                         //fileOutputStream.close(); probably closing SOCKET
                     } catch (IOException e){
                         logger.info("something wrong during collection file and saving");
                     }
                 }
-
-
-
             }
             //dataInputStream.close(); probably closing SOCKET
-            logger.info("file was successfully saved");
+
         } catch (IOException e){
             logger.error("File handler error");
         }
     }
 
-    public boolean checkIfFileAlreadyExist(String filename){
+    public static boolean checkIfFileAlreadyExist(String filename){
         File folder = new File("src/main/resources/pictures/userPictures");
         File[] fileList = folder.listFiles();
         if(fileList != null){
             for(File currentFile: fileList){
                 if(currentFile.getName().equals(filename)){
-                    logger.info("File is exist, it's not added");
+                    logger.info(String.format("File %s is exist, will be not added", filename));
                     return true;
                 }
                 }
