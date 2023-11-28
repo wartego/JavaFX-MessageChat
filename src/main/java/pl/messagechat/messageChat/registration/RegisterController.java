@@ -19,6 +19,7 @@ import pl.messagechat.messageChat.login.LoginController;
 import pl.messagechat.messageChat.messages.Message;
 import pl.messagechat.messageChat.messages.UserNew;
 import pl.messagechat.messageChat.scene.SceneController;
+import pl.messagechat.messageChat.utils.ImageSendingController;
 import pl.messagechat.messageChat.utils.SocketController;
 
 import java.io.*;
@@ -133,7 +134,8 @@ public class RegisterController implements Initializable {
                 registerButton.setVisible(true);
 
                 // here should be added writeObject and send confifmation to server to add user to SQL
-                sendImagetoServer();
+               // sendImagetoServer();
+                ImageSendingController.sendImagetoServer(fileToSend);
             } else {
                 logger.info(message.getMessageBody());
             }
@@ -228,32 +230,7 @@ public class RegisterController implements Initializable {
     }
 
 
-    protected void sendImagetoServer(){
-        if(fileToSend != null){
-            try(FileInputStream fileInputStream = new FileInputStream(fileToSend.getAbsolutePath())){
 
-                DataOutputStream dataOutputStream = new DataOutputStream(outputStream);
-                String fileName = fileToSend.getName();
-                byte[] fileNameBytes = fileName.getBytes();
-
-                byte[] fileContentBytes = new byte[(int) fileToSend.length()];
-                fileInputStream.read(fileContentBytes);
-
-                dataOutputStream.writeInt(fileNameBytes.length);
-                dataOutputStream.write(fileNameBytes);
-
-                dataOutputStream.writeInt(fileContentBytes.length);
-                dataOutputStream.write(fileContentBytes);
-                //dataOutputStream.close();
-            } catch (IOException e){
-                logger.error("Something goes wrong during sending file to server!");
-            }
-        } else {
-            logger.error("file is null");
-        }
-
-
-    }
 
 
 }
