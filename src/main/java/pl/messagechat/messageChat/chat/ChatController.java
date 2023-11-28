@@ -1,7 +1,6 @@
 package pl.messagechat.messageChat.chat;
 
 import javafx.application.Platform;
-import javafx.beans.Observable;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
@@ -13,7 +12,6 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.geometry.Pos;
 import javafx.scene.Cursor;
-import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
@@ -184,7 +182,7 @@ public class ChatController implements Initializable {
         this.userNameLabel.setText(username);
     }
     public void setImageLabel() throws IOException{
-        this.userImage.setImage(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/pictures/dominic.png"))));
+        this.userImage.setImage(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/pictures/userPictures/"+LoginController.getPicture()+".png"))));
 //        image = LoginController.getDefaultUserImage();
 //        userImage.setImage(image);
 //        userImage.setFitWidth(60);
@@ -256,7 +254,7 @@ public class ChatController implements Initializable {
         Task<HBox> othersMessages = new Task<HBox>() {
             @Override
             public HBox call() throws Exception {
-                Image image = new Image(Objects.requireNonNull(getClass().getResourceAsStream("/pictures/" + msg.getPicture().toLowerCase() + ".png")));
+                Image image = new Image(Objects.requireNonNull(getClass().getResourceAsStream("/pictures/userPictures/" + msg.getPicture().toLowerCase() + ".png")));
                 ImageView profileImage = new ImageView(image);
                 profileImage.setFitHeight(32);
                 profileImage.setFitWidth(32);

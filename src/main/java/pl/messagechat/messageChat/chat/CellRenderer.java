@@ -35,7 +35,7 @@ public class CellRenderer implements Callback<ListView<User>, ListCell<User>> {
                     statusImageView.setImage(statusImage);
 
                     ImageView pictureImageView = new ImageView();
-                    Image image = new Image(Objects.requireNonNull(getClass().getResourceAsStream("/pictures/" + user.getPicture().toLowerCase() + ".png")),50,50,true,true);
+                    Image image = new Image(Objects.requireNonNull(getClass().getResourceAsStream("/pictures/userPictures/" + user.getPicture().toLowerCase() + ".png")),50,50,true,true);
                     pictureImageView.setImage(image);
 
                     hBox.getChildren().addAll(statusImageView, pictureImageView, name);

@@ -27,7 +27,6 @@ import javafx.scene.paint.Paint;
 import javafx.util.Duration;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import pl.messagechat.messageChat.login.LoginController;
 import pl.messagechat.messageChat.main.MessageLinkApplication;
 import pl.messagechat.messageChat.messages.Message;
 import pl.messagechat.messageChat.messages.MessageType;
@@ -129,7 +128,7 @@ public class ChatWithUserController implements Initializable {
         this.chatWithUserLabel.setText(username);
     }
     public void setImageLabel() throws IOException{
-        this.userImage.setImage(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/pictures/dominic.png"))));
+        this.userImage.setImage(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/pictures/userPictures/dominic.png"))));
 //        image = LoginController.getDefaultUserImage();
 //        userImage.setImage(image);
 //        userImage.setFitWidth(60);
