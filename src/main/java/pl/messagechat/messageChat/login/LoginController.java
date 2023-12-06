@@ -73,10 +73,6 @@ public class LoginController implements Initializable {
     private Socket socket ;
 
 
-
-
-
-
     public LoginController(){
         instance = this;
     }

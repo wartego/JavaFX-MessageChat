@@ -39,7 +39,7 @@ public class ImageController {
     }
 
 
-    public void receivedFileFromServer(InputStream inputStream){
+    public static void receivedFileFromServer(InputStream inputStream){
         byte[] fileContentBytes = null;
         try {
             DataInputStream dataInputStream = new DataInputStream(inputStream);

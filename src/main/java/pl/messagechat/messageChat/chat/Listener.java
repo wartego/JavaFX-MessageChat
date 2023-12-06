@@ -9,6 +9,7 @@ import pl.messagechat.messageChat.messages.Message;
 import pl.messagechat.messageChat.messages.MessageType;
 import pl.messagechat.messageChat.messages.Status;
 import pl.messagechat.messageChat.messages.UserOnlyLogin;
+import pl.messagechat.messageChat.utils.ImageController;
 import pl.messagechat.messageChat.utils.SocketController;
 
 import java.io.*;
@@ -66,30 +67,37 @@ public class Listener implements Runnable {
             logger.info("Socket in and out ready");
             while (socket.isConnected()) {
                 Message message = null;
-                message = (Message) input.readObject();
-                if (message != null) {
-                    logger.debug("Message recieved:" + message.getMessageBody() + " MessageType:" + message.getType() + "Name:" + message.getSender());
-                    switch (message.getType()) {
-                        case USER, VOICE:
-                            controller.addToChat(message);
-                            break;
-                        case NOTIFICATION:
-                            controller.newUserNotification(message);
-                            break;
-                        case SERVER:
-                            controller.addAsServer(message);
-                            break;
-                        case CONNECTED:
-                            controller.setUserList(message);
-                            break;
-                        case DISCONNECTED:
-                            controller.setUserList(message);
-                            break;
-                        case STATUS:
-                            controller.setUserList(message);
-                            break;
+                Object dataFromServer = input.readObject();
+                if(dataFromServer instanceof Message){
+                    message = (Message) dataFromServer;
+                    if (message != null) {
+                        logger.debug("Message recieved:" + message.getMessageBody() + " MessageType:" + message.getType() + "Name:" + message.getSender());
+                        switch (message.getType()) {
+                            case USER, VOICE:
+                                controller.addToChat(message);
+                                break;
+                            case NOTIFICATION:
+                                controller.newUserNotification(message);
+                                //ImageController.receivedFileFromServer(is);
+                                break;
+                            case SERVER:
+                                controller.addAsServer(message);
+                                break;
+                            case CONNECTED:
+                                controller.setUserList(message);
+                                break;
+                            case DISCONNECTED:
+                                controller.setUserList(message);
+                                break;
+                            case STATUS:
+                                controller.setUserList(message);
+                                break;
+                        }
                     }
+                } else {
+                    //ImageController.receivedFileFromServer(is);
                 }
+
             }
         } catch (IOException | ClassNotFoundException e) {
             controller.logoutScene(new ActionEvent());
