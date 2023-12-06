@@ -52,5 +52,3 @@ Tests:<br>
 
 ### To run the application:
 
-
-## Rest-API Endpoints
