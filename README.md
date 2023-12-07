@@ -13,6 +13,9 @@
 ## Client
 https://github.com/wartego/JavaFX-MessageChat
 
+## Server
+https://github.com/wartego/JavaFX-MessageChat-Server
+
 ## Table of Contents
 
 
